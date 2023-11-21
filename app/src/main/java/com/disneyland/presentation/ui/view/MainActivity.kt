@@ -106,6 +106,7 @@ class MainActivity : ComponentActivity() {
                                 contentDescription = null,
                                 modifier = Modifier.padding(5.dp).clickable {
                                     //back press
+                                    disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
                                 })
                         }
                     )
@@ -133,15 +134,18 @@ class MainActivity : ComponentActivity() {
                     (sideEffect as DisneyListScreenSideEffect.NavigateToDetailsScreen).id
                 )
             )
+
+            is DisneyListScreenSideEffect.NavigateUp -> {
+                navController.navigateUp()
+            }
         }
 
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
                 DisneyListScreen(isLoading, showError, disneyCharacters) { id ->
-                    disneyCharactersViewModel.navigate(
-                        DisneyListScreenSideEffect.NavigateToDetailsScreen(id)
-                    )
+                    disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateToDetails(id))
                 }
+
             }
             composable(route = ScreenDestination.Details.route) {
                 val id = it.arguments?.getString("id")
@@ -149,5 +153,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }
+
 

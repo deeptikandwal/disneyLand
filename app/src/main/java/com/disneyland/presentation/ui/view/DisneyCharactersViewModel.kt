@@ -55,6 +55,12 @@ class DisneyCharactersViewModel @Inject constructor(
             is DisneyListScreenIntent.FetchCharactersList -> {
                 fetchDisneyCharacters()
             }
+            is DisneyListScreenIntent.NavigateToDetails -> {
+                navigate(DisneyListScreenSideEffect.NavigateToDetailsScreen(intent.id))
+            }
+            is DisneyListScreenIntent.NavigateUp -> {
+                navigate(DisneyListScreenSideEffect.NavigateUp)
+            }
 
             else -> {
                 //no implentation
@@ -67,6 +73,5 @@ class DisneyCharactersViewModel @Inject constructor(
             _sideEffect.emit(sideEffect as DisneyListScreenSideEffect)
         }
     }
-
 
 }

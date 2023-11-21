@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DisneyLand</string>
     <string name="title_home_screen">DisneyLand</string>
+    <string name="into_text">"Scroll down to find your favourite disney Character. "</string>
 </resources>

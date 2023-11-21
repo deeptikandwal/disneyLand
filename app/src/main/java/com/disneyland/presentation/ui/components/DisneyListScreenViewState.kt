@@ -15,8 +15,11 @@ sealed class DisneyListScreenViewState : ViewState {
 
 sealed class DisneyListScreenIntent : ViewIntent {
     object FetchCharactersList : DisneyListScreenIntent()
+    class NavigateToDetails(val id: Int) : DisneyListScreenIntent()
+    object NavigateUp : DisneyListScreenIntent()
 }
 
 sealed class DisneyListScreenSideEffect : SideEffect {
     class NavigateToDetailsScreen(val id: Int) : DisneyListScreenSideEffect()
+    object NavigateUp: DisneyListScreenSideEffect()
 }
