@@ -1,6 +1,7 @@
 package com.disneyland.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,19 +31,24 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.disneyland.presentation.viewmodel.CharactersListViewModel
+import com.disneyland.presentation.viewmodel.DisneyCharactersViewModel
 
 @Composable
-fun DisneyListScreen(charactersListViewModel: CharactersListViewModel) {
+fun DisneyListScreen(
+    disneyCharactersViewModel: DisneyCharactersViewModel,
+    goToDetailsScreen: (id: Int) -> Unit,
+) {
 
     val isLoading = remember { mutableStateOf(true) }
     loadProgressBar(isLoading)
     val disneyCharacters =
-        charactersListViewModel.fetchDisneyCharacters().collectAsLazyPagingItems()
+        disneyCharactersViewModel.fetchDisneyCharacters().collectAsLazyPagingItems()
     LazyVerticalGrid(GridCells.Fixed(2)) {
         items(disneyCharacters.itemCount) { index ->
             Card(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp).clickable {
+                    goToDetailsScreen(disneyCharacters[index]?.id!!)
+                },
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
                 Box(Modifier.height(200.dp).fillMaxWidth()) {
@@ -60,7 +66,8 @@ fun DisneyListScreen(charactersListViewModel: CharactersListViewModel) {
                             text = disneyCharacters[index]?.name!!,
                             fontSize = 20.sp,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.onSurface)
+                            modifier = Modifier.fillMaxWidth()
+                                .background(color = MaterialTheme.colorScheme.onSurface)
                         )
                     }
                 }

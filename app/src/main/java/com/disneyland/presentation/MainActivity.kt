@@ -14,20 +14,25 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.disneyland.R
+import com.disneyland.ScreenDestination
+import com.disneyland.presentation.ui.components.DisneyDetailScreen
 import com.disneyland.presentation.ui.components.DisneyListScreen
 import com.disneyland.presentation.ui.theme.DisneyLandTheme
-import com.disneyland.presentation.viewmodel.CharactersListViewModel
+import com.disneyland.presentation.viewmodel.DisneyCharactersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val charactersListViewModel: CharactersListViewModel by viewModels()
-
+    private val disneyCharactersViewModel: DisneyCharactersViewModel by viewModels()
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,9 +56,25 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize().padding(top = it.calculateTopPadding()),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        DisneyListScreen(charactersListViewModel)
+                        setScreens()
                     }
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun setScreens() {
+        val navController = rememberNavController()
+        NavHost(navController, startDestination =ScreenDestination.Home.route) {
+            composable(route = ScreenDestination.Home.route) {
+                DisneyListScreen(disneyCharactersViewModel) { id ->
+                    navController.navigate(ScreenDestination.Details.createRoute(id))
+                }
+            }
+            composable(route = ScreenDestination.Details.route) {
+                val id = it.arguments?.getString("id")
+                DisneyDetailScreen(id,disneyCharactersViewModel)
             }
         }
     }

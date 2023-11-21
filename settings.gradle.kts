@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "DisneyLand"
 include(":app")
-include(":utils")
+include(":common")
