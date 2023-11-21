@@ -9,7 +9,7 @@ import com.disneyland.data.source.DisneyApiService
 import com.disneyland.data.source.DisneyMapper
 import com.disneyland.data.source.DisneyPagingSource
 import com.disneyland.domain.entity.DisneyActor
-import com.disneyland.domain.entity.DisneyCharacter
+import com.disneyland.domain.entity.DisneyListCharacter
 import com.disneyland.domain.repository.DisneyCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,7 +20,7 @@ class DisneyCharactersRepositoryImpl @Inject constructor(
     private val mapper: DisneyMapper,
     private val actorMapper: ActorMapper,
 ) : DisneyCharactersRepository {
-    override fun fetchDisneyCharacters(): Flow<PagingData<DisneyCharacter>> {
+    override fun fetchDisneyCharacters(): Flow<PagingData<DisneyListCharacter>> {
         return Pager(
             config = PagingConfig(pageSize = AppConstants.MAX_PAGE_SIZE, prefetchDistance = 2),
             pagingSourceFactory = {

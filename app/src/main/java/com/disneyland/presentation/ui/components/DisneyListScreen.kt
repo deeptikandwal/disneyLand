@@ -10,16 +10,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -28,33 +31,36 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.disneyland.presentation.viewmodel.DisneyCharactersViewModel
+import com.disneyland.presentation.model.Character
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun DisneyListScreen(
-    disneyCharactersViewModel: DisneyCharactersViewModel,
+    isLoading: Boolean,
+    showError: Boolean,
+    disneyCharacters: Flow<PagingData<Character>>,
     goToDetailsScreen: (id: Int) -> Unit,
 ) {
-
-    val isLoading = remember { mutableStateOf(true) }
-    loadProgressBar(isLoading)
-    val disneyCharacters =
-        disneyCharactersViewModel.fetchDisneyCharacters().collectAsLazyPagingItems()
-    LazyVerticalGrid(GridCells.Fixed(2)) {
-        items(disneyCharacters.itemCount) { index ->
+    val listState: LazyGridState = rememberLazyGridState()
+    var inProgress by remember { mutableStateOf(true) }
+    loadProgressBar(isLoading || inProgress)
+    val characters = disneyCharacters.collectAsLazyPagingItems()
+    LazyVerticalGrid(GridCells.Fixed(2), state = listState) {
+        items(characters.itemCount) { index ->
             Card(
                 modifier = Modifier.padding(10.dp).clickable {
-                    goToDetailsScreen(disneyCharacters[index]?.id!!)
+                    goToDetailsScreen(characters[index]?.id!!)
                 },
                 elevation = CardDefaults.cardElevation(10.dp)
             ) {
                 Box(Modifier.height(200.dp).fillMaxWidth()) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(disneyCharacters[index]?.image)
+                            .data(characters[index]?.image)
                             .crossfade(true)
                             .build(),
                         contentDescription = null,
@@ -63,7 +69,7 @@ fun DisneyListScreen(
                     )
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
                         Text(
-                            text = disneyCharacters[index]?.name!!,
+                            text = characters[index]?.name!!,
                             fontSize = 20.sp,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
@@ -74,14 +80,9 @@ fun DisneyListScreen(
 
             }
         }
-        when (disneyCharacters.loadState.append) {
-            is LoadState.NotLoading -> {
-                isLoading.value = false
-            }
-
-            LoadState.Loading -> {
-                isLoading.value = true
-            }
+        when (characters.loadState.append) {
+            is LoadState.NotLoading -> inProgress = false
+            LoadState.Loading -> inProgress = true
 
             else -> {
 //no action required
@@ -92,8 +93,8 @@ fun DisneyListScreen(
 }
 
 @Composable
-private fun loadProgressBar(isLoading: MutableState<Boolean>) {
-    if (isLoading.value) {
+private fun loadProgressBar(isLoading: Boolean) {
+    if (isLoading) {
         Box(Modifier.size(100.dp), contentAlignment = Alignment.Center) {
             CircularProgressIndicator(
                 modifier = Modifier.width(64.dp),

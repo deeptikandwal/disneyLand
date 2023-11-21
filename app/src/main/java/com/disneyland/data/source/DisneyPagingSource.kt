@@ -7,16 +7,16 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.disneyland.AppConstants.PAGE_SIZE
-import com.disneyland.domain.entity.DisneyCharacter
+import com.disneyland.domain.entity.DisneyListCharacter
 import java.io.IOException
 
 class DisneyPagingSource(
     private val remoteDataSource: DisneyApiService,
     private val mapper: DisneyMapper,
-) : PagingSource<Int, DisneyCharacter>() {
+) : PagingSource<Int, DisneyListCharacter>() {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DisneyCharacter> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DisneyListCharacter> {
 
         return try {
             val currentPage = params.key ?: 1
@@ -40,7 +40,7 @@ class DisneyPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, DisneyCharacter>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, DisneyListCharacter>): Int? {
         return state.anchorPosition
     }
 

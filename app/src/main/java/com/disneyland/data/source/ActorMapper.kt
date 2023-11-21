@@ -1,6 +1,6 @@
 package com.disneyland.data.source
 
-import com.disneyland.AppConstants
+import android.util.Log
 import com.disneyland.data.dto.DisneyActorDto
 import com.disneyland.domain.entity.DisneyActor
 import javax.inject.Inject
@@ -11,13 +11,33 @@ class ActorMapper @Inject constructor() {
         var disneyActor: DisneyActor? = null
         disneyActorDto?.data?.run {
             disneyActor = try {
+                val enemy = enemies?.joinToString {
+                    it
+                }.toString()
+
+                val ally = allies?.joinToString {
+                    it
+                }.toString()
+
+                val majorAttraction = parkAttractions?.joinToString {
+                    it
+                }.toString()
+
                 DisneyActor(
-                    name!!,
-                    setDescription(films, shortFilms, tvShows, videoGames, parkAttractions),
-                    imageUrl!!
+                    name.toString(),
+                    setDescription(
+                        films,
+                        shortFilms,
+                        tvShows,
+                        videoGames,
+                    ),
+                    majorAttraction,
+                    enemy,
+                    ally,
+                    imageUrl.toString()
                 )
             } catch (e: Exception) {
-                DisneyActor("", "", "")
+                DisneyActor("", "", "", "", "","")
             }
         }
         return disneyActor
@@ -28,19 +48,18 @@ class ActorMapper @Inject constructor() {
         shortfilms: ArrayList<String>?,
         tvShows: ArrayList<String>?,
         videoGames: ArrayList<String>?,
-        parkAttractions: ArrayList<String>?,
     ): String {
-        val films =
-            films?.joinToString(", ") {
-                it.plus(shortfilms?.joinToString(", ")).plus(tvShows?.joinToString(", ")).plus(
-                    videoGames?.joinToString(
-                        ", "
-                    )
-                )
-            }
-
-        return AppConstants.DESCRIPTION + films + AppConstants.DESCRIPTION2 + parkAttractions?.joinToString(
-            ","
-        )
+        val attractions = films?.joinToString(", ") { film ->
+            film
+        }.plus(shortfilms?.joinToString { shortFilm ->
+            shortFilm
+        }).plus(tvShows?.joinToString { tvShow ->
+            tvShow
+        }).plus(videoGames?.joinToString { videoGame ->
+            videoGame
+        })
+        Log.d("111111111", attractions)
+        return attractions
     }
+
 }
