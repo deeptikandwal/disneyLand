@@ -2,7 +2,7 @@ package com.disneyland.presentation.source
 
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.disneyland.domain.entity.DisneyListCharacter
+import com.disneyland.domain.model.DisneyListCharacter
 import com.disneyland.presentation.model.Character
 import javax.inject.Inject
 

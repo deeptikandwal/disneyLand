@@ -7,7 +7,7 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.disneyland.AppConstants.PAGE_SIZE
-import com.disneyland.domain.entity.DisneyListCharacter
+import com.disneyland.domain.model.DisneyListCharacter
 import java.io.IOException
 
 class DisneyPagingSource(

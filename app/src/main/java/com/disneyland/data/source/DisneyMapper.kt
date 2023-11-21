@@ -1,7 +1,7 @@
 package com.disneyland.data.source
 
 import com.disneyland.data.dto.Characters
-import com.disneyland.domain.entity.DisneyListCharacter
+import com.disneyland.domain.model.DisneyListCharacter
 import javax.inject.Inject
 
 class DisneyMapper @Inject constructor() {

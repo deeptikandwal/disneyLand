@@ -2,7 +2,7 @@ package com.disneyland.data.source
 
 import android.util.Log
 import com.disneyland.data.dto.DisneyActorDto
-import com.disneyland.domain.entity.DisneyActor
+import com.disneyland.domain.model.DisneyActor
 import javax.inject.Inject
 
 class ActorMapper @Inject constructor() {

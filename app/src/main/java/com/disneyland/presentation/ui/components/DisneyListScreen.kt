@@ -58,8 +58,8 @@ fun DisneyListScreen(
             text = stringResource(R.string.into_text),
             fontSize = 15.sp,
             textAlign = TextAlign.Start,
-            modifier = Modifier.fillMaxWidth().padding(10.dp)
-                .background(color = MaterialTheme.colorScheme.onSurface)
+            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            color=MaterialTheme.colorScheme.onPrimary
         )
         LazyVerticalGrid(GridCells.Fixed(2), state = listState,) {
             items(characters.itemCount) { index ->

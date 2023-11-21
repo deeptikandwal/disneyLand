@@ -1,6 +1,6 @@
 package com.disneyland.domain.usecase
 
-import com.disneyland.domain.entity.DisneyActor
+import com.disneyland.domain.model.DisneyActor
 import com.disneyland.domain.repository.DisneyCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

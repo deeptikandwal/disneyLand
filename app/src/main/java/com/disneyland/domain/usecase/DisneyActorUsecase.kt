@@ -1,6 +1,6 @@
 package com.disneyland.domain.usecase
 
-import com.disneyland.domain.entity.DisneyActor
+import com.disneyland.domain.model.DisneyActor
 import kotlinx.coroutines.flow.Flow
 
 interface DisneyActorUsecase {
