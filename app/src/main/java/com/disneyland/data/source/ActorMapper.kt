@@ -2,7 +2,7 @@ package com.disneyland.data.source
 
 import android.util.Log
 import com.disneyland.data.dto.DisneyActorDto
-import com.disneyland.domain.model.DisneyActor
+import com.disneyland.domain.entity.DisneyActor
 import javax.inject.Inject
 
 class ActorMapper @Inject constructor() {
@@ -58,7 +58,6 @@ class ActorMapper @Inject constructor() {
         }).plus(videoGames?.joinToString { videoGame ->
             videoGame
         })
-        Log.d("111111111", attractions)
         return attractions
     }
 

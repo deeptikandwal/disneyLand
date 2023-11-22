@@ -4,12 +4,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.disneyland.AppConstants
+import com.disneyland.Outcome
 import com.disneyland.data.source.ActorMapper
 import com.disneyland.data.source.DisneyApiService
 import com.disneyland.data.source.DisneyMapper
 import com.disneyland.data.source.DisneyPagingSource
-import com.disneyland.domain.model.DisneyActor
-import com.disneyland.domain.model.DisneyListCharacter
+import com.disneyland.domain.entity.DisneyActor
+import com.disneyland.domain.entity.DisneyListCharacter
 import com.disneyland.domain.repository.DisneyCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,9 +30,14 @@ class DisneyCharactersRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun fetchDisneyCharacterById(id: String): Flow<DisneyActor> {
+    override fun fetchDisneyCharacterById(id: String): Flow<Outcome<DisneyActor>> {
         return flow {
-            actorMapper.mapToDisneyActor(disneyApiService.fetchDisneyCharacterById(id))
+            try {
+                val response = disneyApiService.fetchDisneyCharacterById(id)
+                emit(Outcome.Success(actorMapper.mapToDisneyActor(response)!!))
+            } catch (e: Exception) {
+                emit(Outcome.Failure(e))
+            }
         }
     }
 }

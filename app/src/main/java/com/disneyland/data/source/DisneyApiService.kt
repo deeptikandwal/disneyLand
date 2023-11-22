@@ -1,5 +1,6 @@
 package com.disneyland.data.source
 
+import com.disneyland.Outcome
 import com.disneyland.data.dto.DisneyCharactersListDto
 import com.disneyland.data.dto.DisneyActorDto
 import retrofit2.http.GET

@@ -1,4 +1,4 @@
-package com.disneyland.domain.model
+package com.disneyland.domain.entity
 
 data class DisneyActor(
     val name: String,

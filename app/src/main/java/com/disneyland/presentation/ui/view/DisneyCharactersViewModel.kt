@@ -1,7 +1,9 @@
 package com.disneyland.presentation.ui.view
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.disneyland.Outcome
 import com.disneyland.domain.usecase.DisneyActorUsecase
 import com.disneyland.domain.usecase.DisneyCharactersListUsecase
 import com.disneyland.presentation.base.BaseViewModel
@@ -44,9 +46,15 @@ class DisneyCharactersViewModel @Inject constructor(
 
     fun fetchDisneyCharactersById(id: String) {
         viewModelScope.launch {
-            disneyActorUsecase(id).collectLatest {
-
-            }
+            disneyActorUsecase(id)
+                .collectLatest {
+                    when (it) {
+                        is Outcome.Success -> Log.d("success in view model", it.value.name)
+                        is Outcome.Failure -> {
+                            //show Error message
+                        }
+                    }
+                }
         }
     }
 
@@ -55,9 +63,11 @@ class DisneyCharactersViewModel @Inject constructor(
             is DisneyListScreenIntent.FetchCharactersList -> {
                 fetchDisneyCharacters()
             }
+
             is DisneyListScreenIntent.NavigateToDetails -> {
                 navigate(DisneyListScreenSideEffect.NavigateToDetailsScreen(intent.id))
             }
+
             is DisneyListScreenIntent.NavigateUp -> {
                 navigate(DisneyListScreenSideEffect.NavigateUp)
             }
