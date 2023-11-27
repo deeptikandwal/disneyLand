@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,10 +25,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.PagingData
+import com.disneyland.AppConstants
 import com.disneyland.ScreenDestination
 import com.disneyland.presentation.model.Character
 import com.disneyland.presentation.ui.base.AppTopBar
 import com.disneyland.presentation.ui.components.DisneyDetailScreen
+import com.disneyland.presentation.ui.components.DisneyDetailScreenIntent
+import com.disneyland.presentation.ui.components.DisneyDetailScreenViewState
 import com.disneyland.presentation.ui.components.DisneyListScreen
 import com.disneyland.presentation.ui.components.DisneyListScreenIntent
 import com.disneyland.presentation.ui.components.DisneyListScreenSideEffect
@@ -41,6 +45,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val disneyCharactersViewModel: DisneyCharactersViewModel by viewModels()
+    private val disneyDetailScreenViewModel: DisneyDetailScreenViewModel by viewModels()
     private var isLoading by mutableStateOf(false)
     private var showError by mutableStateOf(false)
     private lateinit var disneyCharacters: Flow<PagingData<Character>>
@@ -56,7 +61,7 @@ class MainActivity : ComponentActivity() {
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     launch {
-                        viewState.collectLatest { viewState ->
+                        disneyCharactersViewModel.viewState.collectLatest { viewState ->
                             when (viewState) {
                                 is DisneyListScreenViewState.LOADING -> isLoading = true
                                 is DisneyListScreenViewState.SUCCESS -> {
@@ -78,7 +83,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DisneyLandTheme(true) {
                 Scaffold(topBar = {
-                    AppTopBar{
+                    AppTopBar {
                         disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
                     }
                 }) {
@@ -119,8 +124,15 @@ class MainActivity : ComponentActivity() {
 
             }
             composable(route = ScreenDestination.Details.route) {
-                val id = it.arguments?.getString("id")
-                DisneyDetailScreen(id, disneyCharactersViewModel)
+                val id = it.arguments?.getString(AppConstants.ID)
+                LaunchedEffect(Unit){
+                    disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.FetchCharacterById(id!!))
+                }
+                val state by disneyDetailScreenViewModel.viewState.collectAsState()
+                if (state != null) {
+                    DisneyDetailScreen(state as DisneyDetailScreenViewState)
+                }
+
             }
         }
     }

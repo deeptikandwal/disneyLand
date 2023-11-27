@@ -7,7 +7,7 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.disneyland.AppConstants.PAGE_SIZE
-import com.disneyland.domain.entity.DisneyListCharacter
+import com.disneyland.domain.model.DisneyListCharacter
 import java.io.IOException
 
 class DisneyPagingSource(
@@ -23,7 +23,7 @@ class DisneyPagingSource(
             val charactersDto =
                 remoteDataSource.fetchDisneyCharacters(page = currentPage, pageSize = PAGE_SIZE)
             var nextPageNumber: Int? = null
-            if (charactersDto.info?.nextPage!= null) {
+            if (charactersDto.info?.nextPage != null) {
                 val uri = Uri.parse(charactersDto.info?.nextPage)
                 val nextPageQuery = uri.getQueryParameter("page")
                 nextPageNumber = nextPageQuery?.toInt()
@@ -33,6 +33,8 @@ class DisneyPagingSource(
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = if (charactersDto.data.isEmpty()) null else nextPageNumber
             )
+        } catch (exception: retrofit2.HttpException) {
+            return LoadResult.Error(exception)
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {

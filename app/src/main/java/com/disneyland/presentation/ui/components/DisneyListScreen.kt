@@ -48,7 +48,7 @@ fun DisneyListScreen(
 
     Column {
         Text(
-            text = stringResource(R.string.into_text),
+            text = stringResource(R.string.intro_text),
             fontSize = 15.sp,
             textAlign = TextAlign.Start,
             modifier = Modifier.fillMaxWidth().padding(10.dp),
@@ -70,8 +70,7 @@ fun DisneyListScreen(
                             }
                         }
 
-                    },
-                    {
+                    }, {
                         goToDetailsScreen(characters[index]?.id!!)
                     })
 

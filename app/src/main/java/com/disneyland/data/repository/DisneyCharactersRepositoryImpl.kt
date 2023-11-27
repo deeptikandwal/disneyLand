@@ -9,8 +9,8 @@ import com.disneyland.data.source.ActorMapper
 import com.disneyland.data.source.DisneyApiService
 import com.disneyland.data.source.DisneyMapper
 import com.disneyland.data.source.DisneyPagingSource
-import com.disneyland.domain.entity.DisneyActor
-import com.disneyland.domain.entity.DisneyListCharacter
+import com.disneyland.domain.model.DisneyActor
+import com.disneyland.domain.model.DisneyListCharacter
 import com.disneyland.domain.repository.DisneyCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
