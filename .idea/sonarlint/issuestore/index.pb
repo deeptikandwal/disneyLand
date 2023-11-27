@@ -14,8 +14,6 @@ F
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-e
-5app/src/main/java/com/disneyland/data/di/AppModule.kt,4\c\4ceff596ac958e8083d57d854cdd5827e3baacb2
 r
 Bapp/src/androidTest/java/com/disneyland/ExampleInstrumentedTest.kt,b\e\beefa6a41e9f330bbdeb51d857b8cc6aa1952ad5
 c

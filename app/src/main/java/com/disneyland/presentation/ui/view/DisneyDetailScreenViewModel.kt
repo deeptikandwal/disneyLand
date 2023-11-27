@@ -35,6 +35,8 @@ class DisneyDetailScreenViewModel @Inject constructor(
     }
 
     private fun fetchDisneyCharactersById(id: String) {
+        updateViewState(DisneyDetailScreenViewState.LOADING)
+
         viewModelScope.launch {
             disneyActorUsecase(id)
                 .collectLatest { outcome ->

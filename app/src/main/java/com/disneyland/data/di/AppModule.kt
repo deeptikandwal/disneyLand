@@ -51,3 +51,4 @@ object AppModule {
     fun getApiInterface(retrofit: Retrofit): DisneyApiService =
         retrofit.create(DisneyApiService::class.java)
 }
+
