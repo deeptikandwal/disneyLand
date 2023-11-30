@@ -1,6 +1,8 @@
 package com.disneyland.presentation.ui.view
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
 import androidx.paging.cachedIn
 import com.disneyland.domain.usecase.DisneyCharactersListUsecase
 import com.disneyland.presentation.base.BaseViewModel
@@ -28,6 +30,18 @@ class DisneyCharactersViewModel @Inject constructor(
             homeScreenMapper.mapToHomeScreenData(pagingData)
         }.cachedIn(viewModelScope)
         updateViewState(DisneyListScreenViewState.SUCCESS(flow))
+    }
+
+    fun handleLoadState(loadStates: LoadStates) {
+        val errorLoadState = arrayOf(
+            loadStates.append,
+            loadStates.prepend,
+            loadStates.refresh
+        ).filterIsInstance(LoadState.Error::class.java).firstOrNull()
+        val throwable = errorLoadState?.error
+        if (throwable?.localizedMessage?.isNotEmpty() == true) {
+            updateViewState(DisneyListScreenViewState.ERROR(throwable.localizedMessage!!))
+        }
     }
 
     override fun sendIntent(intent: ViewIntent) {

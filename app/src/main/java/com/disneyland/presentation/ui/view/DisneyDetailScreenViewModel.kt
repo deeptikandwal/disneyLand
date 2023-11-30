@@ -31,7 +31,7 @@ class DisneyDetailScreenViewModel @Inject constructor(
     }
 
     override fun navigate(sideEffect: SideEffect) {
-        TODO("Not yet implemented")
+        //no implementation
     }
 
     private fun fetchDisneyCharactersById(id: String) {

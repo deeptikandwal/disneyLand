@@ -29,6 +29,7 @@ import com.disneyland.AppConstants
 import com.disneyland.ScreenDestination
 import com.disneyland.presentation.model.Character
 import com.disneyland.presentation.ui.base.AppTopBar
+import com.disneyland.presentation.ui.base.NotFound
 import com.disneyland.presentation.ui.components.DisneyDetailScreen
 import com.disneyland.presentation.ui.components.DisneyDetailScreenIntent
 import com.disneyland.presentation.ui.components.DisneyDetailScreenViewState
@@ -118,24 +119,39 @@ class MainActivity : ComponentActivity() {
 
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
-                DisneyListScreen(isLoading, showError, disneyCharacters) { id ->
-                    disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateToDetails(id))
+                if (::disneyCharacters.isInitialized) {
+                    DisneyListScreen(isLoading, showError, disneyCharacters,
+                        { id ->
+                            disneyCharactersViewModel.sendIntent(
+                                DisneyListScreenIntent.NavigateToDetails(
+                                    id
+                                )
+                            )
+                        }, {
+                            disneyCharactersViewModel.handleLoadState(it)
+                        })
+                } else {
+                    NotFound()
                 }
 
             }
             composable(route = ScreenDestination.Details.route) {
                 val id = it.arguments?.getString(AppConstants.ID)
-                LaunchedEffect(Unit){
-                    disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.FetchCharacterById(id!!))
+                LaunchedEffect(Unit) {
+                    disneyDetailScreenViewModel.sendIntent(
+                        DisneyDetailScreenIntent.FetchCharacterById(
+                            id!!
+                        )
+                    )
                 }
                 val state by disneyDetailScreenViewModel.viewState.collectAsState()
-                if (state != null) {
-                    DisneyDetailScreen(state as DisneyDetailScreenViewState)
+                when (state) {
+                    is DisneyDetailScreenViewState.SUCCESS -> DisneyDetailScreen(state as DisneyDetailScreenViewState)
                 }
-
             }
         }
     }
+
 
 }
 
