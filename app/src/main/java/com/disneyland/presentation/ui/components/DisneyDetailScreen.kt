@@ -24,28 +24,11 @@ import com.disneyland.presentation.ui.base.CustomText
 import com.disneyland.presentation.ui.base.ProgressBar
 import com.disneyland.presentation.ui.base.UnderLinedText
 
-private var actor: Actor? = null
 
 @Composable
-fun DisneyDetailScreen(state: DisneyDetailScreenViewState) {
-    when (state) {
-        is DisneyDetailScreenViewState.LOADING -> {
-            actor = null
-            ProgressBar()
-        }
-
-        is DisneyDetailScreenViewState.SUCCESS -> {
-            actor = state.data
-        }
-
-        else -> {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(stringResource(R.string.data_not_found))
-            }
-        }
-    }
+fun DisneyDetailScreen(actor: Actor?) {
     if (actor != null) {
-        setDetailScreen(actor!!)
+        setDetailScreen(actor)
     }
 }
 
