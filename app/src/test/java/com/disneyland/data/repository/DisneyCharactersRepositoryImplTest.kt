@@ -3,6 +3,7 @@ package com.disneyland.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.disneyland.Outcome
+import com.disneyland.data.di.IODispatcher
 import com.disneyland.data.source.ActorMapper
 import com.disneyland.data.source.DisneyApiService
 import com.disneyland.data.source.DisneyMapper
@@ -11,7 +12,9 @@ import com.disneyland.domain.model.DisneyActor
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -50,7 +53,9 @@ class DisneyCharactersRepositoryImplTest {
         Dispatchers.setMain(testDispatcher)
         disneyCharactersRepositoryImpl = DisneyCharactersRepositoryImpl(
             disneyApiService,
-            disneyMapper, actorMapper
+            disneyMapper,
+            actorMapper,
+            testDispatcher
         )
     }
 

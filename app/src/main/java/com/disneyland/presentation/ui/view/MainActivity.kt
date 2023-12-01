@@ -5,34 +5,31 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.PagingData
 import com.disneyland.AppConstants
-import com.disneyland.R
 import com.disneyland.ScreenDestination
+import com.disneyland.presentation.model.Actor
 import com.disneyland.presentation.model.Character
 import com.disneyland.presentation.ui.base.AppTopBar
 import com.disneyland.presentation.ui.base.NotFound
@@ -55,43 +52,79 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     private val disneyCharactersViewModel: DisneyCharactersViewModel by viewModels()
     private val disneyDetailScreenViewModel: DisneyDetailScreenViewModel by viewModels()
-    private var isLoading by mutableStateOf(false)
-    private var showError by mutableStateOf(false)
-    private lateinit var disneyCharacters: Flow<PagingData<Character>>
+    private var isHomeScreenLoading by mutableStateOf(false)
+    private var showHomeScreenError by mutableStateOf(false)
 
-    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
+    private var isDetailScreenLoading by mutableStateOf(false)
+    private var showDetailScreenError by mutableStateOf(false)
+
+    private lateinit var disneyCharacters: Flow<PagingData<Character>>
+    private var actor: Actor? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        with(disneyCharactersViewModel) {
-            sendIntent(DisneyListScreenIntent.FetchCharactersList)
+        handleViewStates()
+        setComposeUi()
+    }
 
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    launch {
-                        disneyCharactersViewModel.viewState.collectLatest { viewState ->
-                            when (viewState) {
-                                is DisneyListScreenViewState.LOADING -> isLoading = true
-                                is DisneyListScreenViewState.SUCCESS -> {
-                                    disneyCharacters = viewState.data
-                                }
+    private fun handleViewStates() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    disneyCharactersViewModel.viewState.collectLatest { viewState ->
+                        when (viewState) {
+                            is DisneyListScreenViewState.LOADING -> isHomeScreenLoading = true
+                            is DisneyListScreenViewState.SUCCESS -> {
+                                isHomeScreenLoading = false
+                                disneyCharacters = viewState.data
+                            }
 
-                                is DisneyListScreenViewState.ERROR -> {
-                                    showError = true
-                                }
+                            is DisneyListScreenViewState.ERROR -> {
+                                isHomeScreenLoading = false
+                                showHomeScreenError = true
                             }
                         }
                     }
-
                 }
+                launch {
+                    disneyDetailScreenViewModel.viewState.collectLatest { state ->
+                        when (state) {
+                            is DisneyDetailScreenViewState.LOADING -> {
+                                isDetailScreenLoading = true
+                                actor = null
+                            }
+
+                            is DisneyDetailScreenViewState.SUCCESS -> {
+                                showDetailScreenError = false
+                                actor = state.data
+                            }
+
+                            is DisneyDetailScreenViewState.ERROR -> {
+                                showDetailScreenError = false
+                                actor = null
+                            }
+                        }
+
+                    }
+                }
+
             }
-
         }
+    }
 
+    @OptIn(ExperimentalMaterial3Api::class)
+    private fun setComposeUi() {
         setContent {
             DisneyLandTheme(true) {
                 val navController = rememberNavController()
+                var initialApiCalled by rememberSaveable { mutableStateOf(false) }
+                if (!initialApiCalled) {
+                    LaunchedEffect(Unit) {
+                        disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
+                        initialApiCalled = true
+                    }
+                }
 
                 Scaffold(topBar = {
                     AppTopBar {
@@ -118,45 +151,53 @@ class MainActivity : ComponentActivity() {
     private fun setScreens(navController: NavHostController) {
 
         handleSideEffects(navController)
-
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
-                if (::disneyCharacters.isInitialized) {
-                    DisneyListScreen(isLoading, showError, disneyCharacters,
-                        { id ->
-                            disneyCharactersViewModel.sendIntent(
-                                DisneyListScreenIntent.NavigateToDetails(
-                                    id
-                                )
-                            )
-                        }, {
-                            disneyCharactersViewModel.handleLoadState(it)
-                        })
-                } else {
-                    NotFound()
-                }
-
+                setHomeScreen()
             }
             composable(route = ScreenDestination.Details.route) {
-                val id = it.arguments?.getString(AppConstants.ID)
-                LaunchedEffect(Unit) {
-                    disneyDetailScreenViewModel.sendIntent(
-                        DisneyDetailScreenIntent.FetchCharacterById(
-                            id!!
+                setDetailsScreen(it)
+            }
+        }
+    }
+
+    @Composable
+    private fun setDetailsScreen(it: NavBackStackEntry) {
+        val id = it.arguments?.getString(AppConstants.ID)
+        LaunchedEffect(id) {
+            disneyDetailScreenViewModel.sendIntent(
+                DisneyDetailScreenIntent.FetchCharacterById(
+                    id!!
+                )
+            )
+        }
+        if (actor != null) {
+            DisneyDetailScreen(actor)
+        } else {
+            if (isDetailScreenLoading) {
+                ProgressBar()
+            }
+            if (showDetailScreenError) {
+                NotFound()
+            }
+        }
+    }
+
+    @Composable
+    private fun setHomeScreen() {
+        if (::disneyCharacters.isInitialized) {
+            DisneyListScreen(isHomeScreenLoading, showHomeScreenError, disneyCharacters,
+                { id ->
+                    disneyCharactersViewModel.sendIntent(
+                        DisneyListScreenIntent.NavigateToDetails(
+                            id
                         )
                     )
-                }
-                val state by disneyDetailScreenViewModel.viewState.collectAsState()
-                when (state) {
-                    is DisneyDetailScreenViewState.LOADING -> ProgressBar()
-                    is DisneyDetailScreenViewState.SUCCESS -> DisneyDetailScreen((state as DisneyDetailScreenViewState.SUCCESS).data)
-                    else -> {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text(stringResource(R.string.data_not_found))
-                        }
-                    }
-                }
-            }
+                }, {
+                    disneyCharactersViewModel.handleLoadState(it)
+                })
+        } else {
+            NotFound()
         }
     }
 
