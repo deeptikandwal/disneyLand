@@ -27,11 +27,13 @@ class DisneyDetailScreenViewModel @Inject constructor(
             is DisneyDetailScreenIntent.FetchCharacterById -> {
                 fetchDisneyCharactersById(intent.id)
             }
+
+            is DisneyDetailScreenIntent.NavigateUp -> navigate(DisneyDetailScreenSideEffect.NavigateUp)
         }
     }
 
     override fun navigate(sideEffect: SideEffect) {
-        //no implementation
+        updateSideEffect( sideEffect as DisneyDetailScreenSideEffect.NavigateUp)
     }
 
     private fun fetchDisneyCharactersById(id: String) {

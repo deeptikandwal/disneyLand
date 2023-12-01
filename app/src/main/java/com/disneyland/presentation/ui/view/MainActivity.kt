@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -38,6 +39,7 @@ import com.disneyland.presentation.ui.base.NotFound
 import com.disneyland.presentation.ui.base.ProgressBar
 import com.disneyland.presentation.ui.components.DisneyDetailScreen
 import com.disneyland.presentation.ui.components.DisneyDetailScreenIntent
+import com.disneyland.presentation.ui.components.DisneyDetailScreenSideEffect
 import com.disneyland.presentation.ui.components.DisneyDetailScreenViewState
 import com.disneyland.presentation.ui.components.DisneyListScreen
 import com.disneyland.presentation.ui.components.DisneyListScreenIntent
@@ -89,9 +91,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DisneyLandTheme(true) {
+                val navController = rememberNavController()
+
                 Scaffold(topBar = {
                     AppTopBar {
-                        disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
+                        if (navController.currentDestination?.route == ScreenDestination.Home.route)
+                            disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
+                        else if (navController.currentDestination?.route == ScreenDestination.Details.route) {
+                            disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
+                        }
                     }
                 }) {
                     Surface(
@@ -99,7 +107,7 @@ class MainActivity : ComponentActivity() {
                             .padding(top = it.calculateTopPadding()),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        setScreens()
+                        setScreens(navController)
                     }
                 }
             }
@@ -107,21 +115,9 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun setScreens() {
-        val navController = rememberNavController()
+    private fun setScreens(navController: NavHostController) {
 
-        val sideEffect by disneyCharactersViewModel.sideEffect.collectAsState(0)
-        when (sideEffect) {
-            is DisneyListScreenSideEffect.NavigateToDetailsScreen -> navController.navigate(
-                ScreenDestination.Details.createRoute(
-                    (sideEffect as DisneyListScreenSideEffect.NavigateToDetailsScreen).id
-                )
-            )
-
-            is DisneyListScreenSideEffect.NavigateUp -> {
-                navController.navigateUp()
-            }
-        }
+        handleSideEffects(navController)
 
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
@@ -162,6 +158,46 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @SuppressLint("CoroutineCreationDuringComposition")
+    @Composable
+    private fun handleSideEffects(navController: NavHostController) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    disneyCharactersViewModel.sideEffect.collectLatest { sideEffectHome ->
+                        when (sideEffectHome) {
+                            is DisneyListScreenSideEffect.NavigateToDetailsScreen -> navController.navigate(
+                                ScreenDestination.Details.createRoute(
+                                    (sideEffectHome as DisneyListScreenSideEffect.NavigateToDetailsScreen).id
+                                )
+                            )
+
+                            is DisneyListScreenSideEffect.NavigateUp -> {
+                                finish()
+                            }
+
+                        }
+
+                    }
+                }
+
+                launch {
+                    disneyDetailScreenViewModel.sideEffect.collectLatest { sideEffectDetails ->
+                        when (sideEffectDetails) {
+                            is DisneyDetailScreenSideEffect.NavigateUp -> {
+                                navController.navigate(ScreenDestination.Home.route)
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+        }
+
     }
 
 

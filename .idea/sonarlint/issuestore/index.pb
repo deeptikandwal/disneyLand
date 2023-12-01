@@ -94,8 +94,6 @@ Papp/src/main/java/com/disneyland/domain/repository/DisneyCharactersRepository.k
 Napp/src/main/java/com/disneyland/domain/usecase/DisneyCharactersListUsecase.kt,5\2\528651437e7924d772ab49a233380227304c4401
 ‚
 Rapp/src/main/java/com/disneyland/domain/usecase/DisneyCharactersListUsecaseImpl.kt,f\1\f10501995653a4020ea699e897ffee53be507604
-s
-Capp/src/main/java/com/disneyland/presentation/base/BaseViewModel.kt,d\7\d744f17b2b37bbdb015266446c5ef495720b11b3
 v
 Fapp/src/test/java/com/disneyland/data/source/DisneyPagingSourceTest.kt,1\1\11eebf6d94e57ea983c6db61eff2f148b0fefc1b
 ‚
