@@ -107,10 +107,8 @@ class MainActivity : ComponentActivity() {
                                 actor = null
                             }
                         }
-
                     }
                 }
-
             }
         }
     }
@@ -130,9 +128,9 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(topBar = {
                     AppTopBar {
-                        if (navController.currentDestination?.route == ScreenDestination.Home.route)
+                        if (navController.currentDestination?.route == ScreenDestination.Home.route) {
                             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
-                        else if (navController.currentDestination?.route == ScreenDestination.Details.route) {
+                        } else if (navController.currentDestination?.route == ScreenDestination.Details.route) {
                             disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
                         }
                     }
@@ -151,7 +149,6 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun setScreens(navController: NavHostController) {
-
         handleSideEffects(navController)
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
@@ -188,16 +185,21 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun setHomeScreen() {
         if (::disneyCharacters.isInitialized) {
-            DisneyListScreen(isHomeScreenLoading, showHomeScreenError, disneyCharacters,
+            DisneyListScreen(
+                isHomeScreenLoading,
+                showHomeScreenError,
+                disneyCharacters,
                 { id ->
                     disneyCharactersViewModel.sendIntent(
                         DisneyListScreenIntent.NavigateToDetails(
                             id
                         )
                     )
-                }, {
+                },
+                {
                     disneyCharactersViewModel.handleLoadState(it)
-                })
+                }
+            )
         } else {
             NotFound()
         }
@@ -220,9 +222,7 @@ class MainActivity : ComponentActivity() {
                             is DisneyListScreenSideEffect.NavigateUp -> {
                                 finish()
                             }
-
                         }
-
                     }
                 }
 
@@ -232,21 +232,14 @@ class MainActivity : ComponentActivity() {
                             is DisneyDetailScreenSideEffect.NavigateUp -> {
                                 navController.navigate(ScreenDestination.Home.route)
                             }
-
                         }
                     }
-
                 }
-
             }
         }
-
     }
 
     companion object {
         private const val ID = "id"
     }
-
 }
-
-

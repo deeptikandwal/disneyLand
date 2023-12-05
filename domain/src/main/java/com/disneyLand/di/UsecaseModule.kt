@@ -18,7 +18,6 @@ abstract class UsecaseModule {
 
     @Binds
     abstract fun bindDisneyActorUsecase(
-        disneyActorUsecaseImpl: DisneyActorUsecaseImpl,
+        disneyActorUsecaseImpl: DisneyActorUsecaseImpl
     ): DisneyActorUsecase
-
 }

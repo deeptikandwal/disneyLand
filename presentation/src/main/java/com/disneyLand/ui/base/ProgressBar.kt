@@ -16,8 +16,7 @@ fun ProgressBar() {
     Box(Modifier.fillMaxSize().size(100.dp), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
             modifier = Modifier.width(64.dp),
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.primary
         )
     }
-
 }

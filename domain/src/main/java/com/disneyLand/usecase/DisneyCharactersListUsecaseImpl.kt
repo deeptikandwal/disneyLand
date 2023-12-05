@@ -10,4 +10,4 @@ class DisneyCharactersListUsecaseImpl @Inject constructor(private val disneyChar
     DisneyCharactersListUsecase {
     override fun invoke(): Flow<PagingData<DisneyListCharacter>> =
         disneyCharactersRepository.fetchDisneyCharacters()
-    }
+}

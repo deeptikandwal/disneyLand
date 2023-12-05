@@ -21,5 +21,5 @@ sealed class DisneyListScreenIntent : ViewIntent {
 
 sealed class DisneyListScreenSideEffect : SideEffect {
     class NavigateToDetailsScreen(val id: Int) : DisneyListScreenSideEffect()
-    object NavigateUp: DisneyListScreenSideEffect()
+    object NavigateUp : DisneyListScreenSideEffect()
 }

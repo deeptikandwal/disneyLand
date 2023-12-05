@@ -17,9 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.disneyLand.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(navigateBack:()->Unit) {
+fun AppTopBar(navigateBack: () -> Unit) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         title = {
@@ -32,13 +33,15 @@ fun AppTopBar(navigateBack:()->Unit) {
             )
         },
         navigationIcon = {
-            Icon(painter = painterResource(R.drawable.ic_back),
+            Icon(
+                painter = painterResource(R.drawable.ic_back),
                 tint = MaterialTheme.colorScheme.onSurface,
                 contentDescription = null,
                 modifier = Modifier.padding(5.dp).clickable {
-                    //back press
+                    // back press
                     navigateBack()
-                })
+                }
+            )
         }
     )
 }

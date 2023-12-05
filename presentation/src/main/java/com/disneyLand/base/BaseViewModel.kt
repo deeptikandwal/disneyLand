@@ -25,7 +25,7 @@ abstract class BaseViewModel<vs : ViewState, vi : ViewIntent, se : SideEffect> :
 
     fun updateSideEffect(sideEffect: SideEffect) {
         viewModelScope.launch {
-            _sideEffect.emit( sideEffect)
+            _sideEffect.emit(sideEffect)
         }
     }
 

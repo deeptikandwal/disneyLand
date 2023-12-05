@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 fun CustomCard(content: @Composable () -> Unit, onClick: () -> Unit) {
     Card(
         modifier = Modifier.padding(10.dp).clickable { onClick() },
-        elevation = CardDefaults.cardElevation(10.dp)) {
+        elevation = CardDefaults.cardElevation(10.dp)
+    ) {
         content()
     }
-
 }

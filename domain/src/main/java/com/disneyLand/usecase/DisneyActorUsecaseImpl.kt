@@ -10,5 +10,4 @@ class DisneyActorUsecaseImpl @Inject constructor(private val disneyCharactersRep
     DisneyActorUsecase {
     override fun invoke(id: String): Flow<Outcome<DisneyActor>> =
         disneyCharactersRepository.fetchDisneyCharacterById(id)
-
 }

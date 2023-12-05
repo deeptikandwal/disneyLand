@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyDetailScreenViewModel @Inject constructor(
     private val disneyActorUsecase: DisneyActorUsecase,
-    private val detailScreenMapper: DetailScreenMapper,
+    private val detailScreenMapper: DetailScreenMapper
 ) : BaseViewModel<DisneyDetailScreenViewState, DisneyDetailScreenIntent, DisneyDetailScreenSideEffect>() {
     override val initialViewState: ViewState = DisneyDetailScreenViewState.LOADING
     override fun sendIntent(intent: ViewIntent) {
@@ -33,7 +33,7 @@ class DisneyDetailScreenViewModel @Inject constructor(
     }
 
     override fun navigate(sideEffect: SideEffect) {
-        updateSideEffect( sideEffect as DisneyDetailScreenSideEffect.NavigateUp)
+        updateSideEffect(sideEffect as DisneyDetailScreenSideEffect.NavigateUp)
     }
 
     private fun fetchDisneyCharactersById(id: String) {
@@ -55,5 +55,4 @@ class DisneyDetailScreenViewModel @Inject constructor(
                 }
         }
     }
-
 }

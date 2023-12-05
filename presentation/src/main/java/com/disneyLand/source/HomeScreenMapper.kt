@@ -9,12 +9,12 @@ import javax.inject.Inject
 class HomeScreenMapper @Inject constructor() {
 
     fun mapToHomeScreenData(pagingData: PagingData<DisneyListCharacter>): PagingData<Character> {
-       return pagingData.map { disneyCharacter ->
-           Character(
-               disneyCharacter.id,
-               disneyCharacter.name.uppercase(),
-               disneyCharacter.image
-           )
+        return pagingData.map { disneyCharacter ->
+            Character(
+                disneyCharacter.id,
+                disneyCharacter.name.uppercase(),
+                disneyCharacter.image
+            )
         }
     }
 }

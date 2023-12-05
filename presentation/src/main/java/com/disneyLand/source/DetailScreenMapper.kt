@@ -17,7 +17,8 @@ class DetailScreenMapper @Inject constructor() {
         )
     }
 
-    companion object{
-       private const val DESCRIPTION = "This character featured in films, tv shows and video games like :"
+    companion object {
+        private const val DESCRIPTION =
+            "This character featured in films, tv shows and video games like :"
     }
 }

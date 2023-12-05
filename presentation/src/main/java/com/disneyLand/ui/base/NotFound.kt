@@ -17,14 +17,15 @@ import com.disneyLand.R
 
 @Composable fun NotFound() {
     Column(
-        Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
+        Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(R.string.data_not_found),
             fontSize = 15.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            modifier = Modifier.fillMaxWidth().padding(10.dp)
         )
     }
 }

@@ -17,6 +17,6 @@ fun CustomImage(imageUrl: String?) {
             .build(),
         contentDescription = null,
         modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.Crop
     )
 }

@@ -3,9 +3,12 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
 }
 
+ktlint {
+    disabledRules.set(setOf("no-wildcard-imports"))
+}
 android {
     namespace = "com.disneyLand"
     compileSdk = 33
@@ -49,7 +52,7 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    //compose
+    // compose
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")
@@ -58,13 +61,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    //coil
+    // coil
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.navigation:navigation-compose:2.7.4")
 
     // To use constraintlayout in compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
-    //coroutines
+    // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
 
@@ -75,7 +78,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    //test
+    // test
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     androidTestApi("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
@@ -87,7 +90,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    //Mockk
+    // Mockk
     testApi("io.mockk:mockk:1.13.7")
     testApi("io.mockk:mockk-android:1.13.7")
     testApi("com.squareup.okhttp3:mockwebserver:4.0.0")
@@ -98,5 +101,4 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
     kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
 }

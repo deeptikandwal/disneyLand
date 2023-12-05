@@ -43,7 +43,7 @@ fun DisneyListScreen(
     showError: Boolean,
     disneyCharacters: Flow<PagingData<Character>>,
     goToDetailsScreen: (id: Int) -> Unit,
-    handleLoadStates: (LoadStates) -> Unit,
+    handleLoadStates: (LoadStates) -> Unit
 ) {
     val listState: LazyGridState = rememberLazyGridState()
     var inProgress by remember { mutableStateOf(true) }
@@ -53,7 +53,6 @@ fun DisneyListScreen(
     LaunchedEffect(pagingLoadStates) {
         handleLoadStates(pagingLoadStates)
     }
-
     if (showError) {
         NotFound()
     }
@@ -80,11 +79,9 @@ fun DisneyListScreen(
                             )
                         }
                     }
-
                 }, {
                     goToDetailsScreen(characters[index]?.id!!)
                 })
-
             }
             inProgress = when (characters.loadState.append) {
                 is LoadState.NotLoading -> false
@@ -94,12 +91,8 @@ fun DisneyListScreen(
                 }
             }
         }
-
     }
-
 }
-
-
 
 @Composable
 private fun loadProgressBar(isLoading: Boolean) {

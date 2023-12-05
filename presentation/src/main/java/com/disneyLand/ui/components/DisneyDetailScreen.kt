@@ -36,7 +36,6 @@ fun setDetailScreen(actor: Actor) {
         }
 
         Column(modifier = Modifier.padding(10.dp)) {
-
             Text(
                 actor.name,
                 textAlign = TextAlign.Center,
@@ -52,19 +51,15 @@ fun setDetailScreen(actor: Actor) {
             if (actor.allies.isNotEmpty()) {
                 UnderLinedText(stringResource(R.string.allies))
                 CustomText(actor.allies)
-
             }
         }
         if (actor.enemies.isNotEmpty()) {
             UnderLinedText(stringResource(R.string.enemies))
             CustomText(actor.enemies)
-
         }
-
         if (actor.majorAttraction.isNotEmpty()) {
             UnderLinedText(stringResource(R.string.attractions))
             CustomText(actor.majorAttraction)
         }
-
     }
 }

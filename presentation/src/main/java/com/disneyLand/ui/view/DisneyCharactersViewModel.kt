@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyCharactersViewModel @Inject constructor(
     private val disneyCharactersListUsecase: DisneyCharactersListUsecase,
-    private val homeScreenMapper: HomeScreenMapper,
+    private val homeScreenMapper: HomeScreenMapper
 ) : BaseViewModel<DisneyListScreenViewState, DisneyListScreenIntent, DisneyListScreenSideEffect>() {
     override val initialViewState: ViewState = DisneyListScreenViewState.LOADING
 
@@ -58,7 +58,7 @@ class DisneyCharactersViewModel @Inject constructor(
             }
 
             else -> {
-                //no implentation
+                // no implentation
             }
         }
     }
@@ -68,5 +68,4 @@ class DisneyCharactersViewModel @Inject constructor(
             updateSideEffect(sideEffect as DisneyListScreenSideEffect)
         }
     }
-
 }

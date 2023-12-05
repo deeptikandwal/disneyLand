@@ -1,10 +1,10 @@
 package com.disneyLand.base
 
-//states of app
+// states of app
 interface ViewState
 
-//any kind of action
+// any kind of action
 interface ViewIntent
 
-//occurs only once
+// occurs only once
 interface SideEffect
