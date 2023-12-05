@@ -3,7 +3,6 @@ package com.disneyLand.source
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource
 import com.disneyLand.dto.DisneyCharactersListDto
-import com.disneyland.data.source.FakeDisneyListCharacters
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

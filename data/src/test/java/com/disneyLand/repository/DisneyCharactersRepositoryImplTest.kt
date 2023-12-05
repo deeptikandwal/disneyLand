@@ -7,7 +7,7 @@ import com.disneyLand.model.DisneyActor
 import com.disneyLand.source.ActorMapper
 import com.disneyLand.source.DisneyApiService
 import com.disneyLand.source.DisneyMapper
-import com.disneyland.data.source.FakeDisneyActor
+import com.disneyLand.source.FakeDisneyActor
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every

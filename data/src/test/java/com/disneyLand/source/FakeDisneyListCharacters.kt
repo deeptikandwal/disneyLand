@@ -1,8 +1,8 @@
-package com.disneyland.data.source
+package com.disneyLand.source
 
-import com.disneyland.data.dto.Characters
-import com.disneyland.data.dto.DisneyCharactersListDto
-import com.disneyland.domain.model.DisneyListCharacter
+import com.disneyLand.dto.Characters
+import com.disneyLand.dto.DisneyCharactersListDto
+import com.disneyLand.model.DisneyListCharacter
 
 class FakeDisneyListCharacters {
     companion object {

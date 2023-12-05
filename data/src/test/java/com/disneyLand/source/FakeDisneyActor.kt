@@ -1,9 +1,9 @@
-package com.disneyland.data.source
+package com.disneyLand.source
 
-import com.disneyland.data.dto.Actor
-import com.disneyland.data.dto.DisneyActorDto
-import com.disneyland.data.dto.Info
-import com.disneyland.domain.model.DisneyActor
+import com.disneyLand.dto.Actor
+import com.disneyLand.dto.DisneyActorDto
+import com.disneyLand.dto.Info
+import com.disneyLand.model.DisneyActor
 
 class FakeDisneyActor {
 
