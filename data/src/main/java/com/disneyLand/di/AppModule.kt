@@ -18,6 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     private const val BASE_URL = "https://api.disneyapi.dev"
+
     @Provides
     @Singleton
     fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
@@ -34,7 +35,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun getGson():Gson = GsonBuilder()
+    fun getGson(): Gson = GsonBuilder()
         .setLenient()
         .create()
 
@@ -50,6 +51,4 @@ object AppModule {
     @Singleton
     fun getApiInterface(retrofit: Retrofit): DisneyApiService =
         retrofit.create(DisneyApiService::class.java)
-
 }
-

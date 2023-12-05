@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class DisneyCharactersListDto(
     @SerializedName("info") var info: Info? = Info(),
-    @SerializedName("data") var data: ArrayList<Characters> = arrayListOf(),
+    @SerializedName("data") var data: ArrayList<Characters> = arrayListOf()
 )
 
 data class Characters(
@@ -22,12 +22,12 @@ data class Characters(
     @SerializedName("createdAt") var createdAt: String? = null,
     @SerializedName("updatedAt") var updatedAt: String? = null,
     @SerializedName("url") var url: String? = null,
-    @SerializedName("__v") var _v: Int? = null,
+    @SerializedName("__v") var _v: Int? = null
 )
 
 data class Info(
     @SerializedName("count") var count: Int? = null,
     @SerializedName("totalPages") var totalPages: Int? = null,
     @SerializedName("previousPage") var previousPage: String? = null,
-    @SerializedName("nextPage") var nextPage: String? = null,
+    @SerializedName("nextPage") var nextPage: String? = null
 )

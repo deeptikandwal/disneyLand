@@ -15,5 +15,4 @@ class DisneyMapper @Inject constructor() {
             }
         }
     }
-
 }

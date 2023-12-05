@@ -12,10 +12,6 @@ F
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-r
-Bapp/src/androidTest/java/com/disneyland/ExampleInstrumentedTest.kt,b\e\beefa6a41e9f330bbdeb51d857b8cc6aa1952ad5
-c
-3app/src/test/java/com/disneyland/ExampleUnitTest.kt,4\4\44ca3629b3ebd37265548b9bc41174a9dcfd666d
 @
 build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
 A

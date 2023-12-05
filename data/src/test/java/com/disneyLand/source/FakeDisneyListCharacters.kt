@@ -8,7 +8,8 @@ class FakeDisneyListCharacters {
     companion object {
         fun getDisneyListCharactersDto(): DisneyCharactersListDto {
             return DisneyCharactersListDto(
-                info = null, arrayListOf(
+                info = null,
+                arrayListOf(
                     Characters(
                         id = 247,
                         name = "Angels",
@@ -23,7 +24,7 @@ class FakeDisneyListCharacters {
                         id = 268,
                         name = "Anthony Biddle",
                         sourceUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
-                    ),
+                    )
                 )
             )
         }
@@ -44,9 +45,8 @@ class FakeDisneyListCharacters {
                     id = 268,
                     name = "Anthony Biddle",
                     image = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
-                ),
+                )
             )
         }
-
     }
 }

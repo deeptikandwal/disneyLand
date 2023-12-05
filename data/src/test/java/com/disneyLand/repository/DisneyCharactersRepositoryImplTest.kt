@@ -69,7 +69,6 @@ class DisneyCharactersRepositoryImplTest {
                 Assert.assertEquals(Outcome.Success<DisneyActor>(actor), awaitItem())
                 awaitComplete()
             }
-
         }
 
     @Test
@@ -88,7 +87,6 @@ class DisneyCharactersRepositoryImplTest {
             Assert.assertEquals(Outcome.Failure<DisneyActor>(exception), awaitItem())
             awaitComplete()
         }
-
     }
 
     @After
@@ -101,4 +99,3 @@ class DisneyCharactersRepositoryImplTest {
         private const val ID = "268"
     }
 }
-

@@ -11,12 +11,11 @@ import java.io.IOException
 
 class DisneyPagingSource(
     private val remoteDataSource: DisneyApiService,
-    private val mapper: DisneyMapper,
+    private val mapper: DisneyMapper
 ) : PagingSource<Int, DisneyListCharacter>() {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DisneyListCharacter> {
-
         return try {
             val currentPage = params.key ?: 1
             val charactersDto =

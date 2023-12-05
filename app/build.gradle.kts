@@ -3,7 +3,11 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
+}
 
+ktlint {
+    disabledRules.set(setOf("no-wildcard-imports"))
 }
 
 android {
@@ -58,5 +62,9 @@ dependencies {
     implementation(project(":presentation"))
 
     implementation("com.google.dagger:hilt-android:2.45")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    implementation("androidx.test:monitor:1.6.1")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("junit:junit:4.13.2")
 }

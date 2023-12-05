@@ -28,7 +28,7 @@ class ActorMapper @Inject constructor() {
                         films,
                         shortFilms,
                         tvShows,
-                        videoGames,
+                        videoGames
                     ),
                     majorAttraction,
                     enemy,
@@ -36,7 +36,7 @@ class ActorMapper @Inject constructor() {
                     imageUrl.toString()
                 )
             } catch (e: Exception) {
-                DisneyActor("", "", "", "", "","")
+                DisneyActor("", "", "", "", "", "")
             }
         }
         return disneyActor
@@ -46,18 +46,23 @@ class ActorMapper @Inject constructor() {
         films: ArrayList<String>?,
         shortfilms: ArrayList<String>?,
         tvShows: ArrayList<String>?,
-        videoGames: ArrayList<String>?,
+        videoGames: ArrayList<String>?
     ): String {
         val attractions = films?.joinToString(", ") { film ->
             film
-        }.plus(shortfilms?.joinToString { shortFilm ->
-            shortFilm
-        }).plus(tvShows?.joinToString { tvShow ->
-            tvShow
-        }).plus(videoGames?.joinToString { videoGame ->
-            videoGame
-        })
+        }.plus(
+            shortfilms?.joinToString { shortFilm ->
+                shortFilm
+            }
+        ).plus(
+            tvShows?.joinToString { tvShow ->
+                tvShow
+            }
+        ).plus(
+            videoGames?.joinToString { videoGame ->
+                videoGame
+            }
+        )
         return attractions
     }
-
 }

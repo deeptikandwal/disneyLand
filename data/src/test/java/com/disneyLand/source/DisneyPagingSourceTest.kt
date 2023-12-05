@@ -45,11 +45,14 @@ class DisneyPagingSourceTest {
         coEvery { disneyMapper.mapToDisneyCharacter(any()) } returns list
         coEvery {
             disneyApiService.fetchDisneyCharacters(
-                any(), any()
+                any(),
+                any()
             )
         } returns FakeDisneyListCharacters.getDisneyListCharactersDto()
         val expectedResult = PagingSource.LoadResult.Page(
-            data = list, prevKey = null, nextKey = null
+            data = list,
+            prevKey = null,
+            nextKey = null
         )
         Assert.assertEquals(
             expectedResult,
@@ -61,9 +64,10 @@ class DisneyPagingSourceTest {
     fun `get characters list  failed`() = runTest {
         coEvery {
             disneyApiService.fetchDisneyCharacters(
-                any(), any()
+                any(),
+                any()
             )
-        } coAnswers  {
+        } coAnswers {
             throw IOException()
         }
         val expectedResult =

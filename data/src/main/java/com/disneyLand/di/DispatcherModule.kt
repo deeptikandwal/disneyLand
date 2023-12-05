@@ -13,12 +13,11 @@ object DispatcherModule {
 
     @MainDispatcher
     @Provides
-    fun provideMainDispatcher()= Dispatchers.Main
+    fun provideMainDispatcher() = Dispatchers.Main
 
     @IODispatcher
     @Provides
-    fun provideIODispatcher()= Dispatchers.IO
-
+    fun provideIODispatcher() = Dispatchers.IO
 }
 
 @Qualifier
