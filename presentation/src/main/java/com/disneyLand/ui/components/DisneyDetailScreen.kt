@@ -20,6 +20,7 @@ import com.disneyLand.model.Actor
 import com.disneyLand.ui.base.CustomImage
 import com.disneyLand.ui.base.CustomText
 import com.disneyLand.ui.base.UnderLinedText
+
 @Composable
 fun DisneyDetailScreen(actor: Actor?) {
     if (actor != null) {

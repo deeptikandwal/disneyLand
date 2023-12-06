@@ -63,4 +63,10 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("app.cash.turbine:turbine:1.0.0")
     testImplementation("junit:junit:4.13.2")
+
+    // Mockk
+    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("io.mockk:mockk-android:1.13.7")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.0.0")
+    testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
 }

@@ -2,7 +2,7 @@ package com.disneyLand.ui.view
 
 sealed class ScreenDestination(val route: String) {
     object Home : ScreenDestination(HOME)
-    object Details : ScreenDestination("{id}/$DETAILS") {
+    object Details : ScreenDestination(DETAILS) {
         fun createRoute(id: Int) = "$id/$DETAILS"
     }
 

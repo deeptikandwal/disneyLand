@@ -3,6 +3,7 @@ package com.disneyLand.ui.view
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,6 +49,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var navController: NavHostController
     private val disneyCharactersViewModel: DisneyCharactersViewModel by viewModels()
     private val disneyDetailScreenViewModel: DisneyDetailScreenViewModel by viewModels()
     private var isHomeScreenLoading by mutableStateOf(false)
@@ -117,7 +119,7 @@ class MainActivity : ComponentActivity() {
     private fun setComposeUi() {
         setContent {
             DisneyLandTheme(true) {
-                val navController = rememberNavController()
+                navController = rememberNavController()
                 var initialApiCalled by rememberSaveable { mutableStateOf(false) }
                 if (!initialApiCalled) {
                     LaunchedEffect(Unit) {
@@ -130,7 +132,7 @@ class MainActivity : ComponentActivity() {
                     AppTopBar {
                         if (navController.currentDestination?.route == ScreenDestination.Home.route) {
                             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
-                        } else if (navController.currentDestination?.route == ScreenDestination.Details.route) {
+                        } else if (navController.currentDestination?.route == ID_REDUX + ScreenDestination.Details.route) {
                             disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
                         }
                     }
@@ -152,9 +154,15 @@ class MainActivity : ComponentActivity() {
         handleSideEffects(navController)
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
+                BackHandler {
+                    disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
+                }
                 setHomeScreen()
             }
-            composable(route = ScreenDestination.Details.route) {
+            composable(route = ID_REDUX + ScreenDestination.Details.route) {
+                BackHandler {
+                    disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
+                }
                 setDetailsScreen(it)
             }
         }
@@ -215,7 +223,7 @@ class MainActivity : ComponentActivity() {
                         when (sideEffectHome) {
                             is DisneyListScreenSideEffect.NavigateToDetailsScreen -> navController.navigate(
                                 ScreenDestination.Details.createRoute(
-                                    (sideEffectHome as DisneyListScreenSideEffect.NavigateToDetailsScreen).id
+                                    sideEffectHome.id
                                 )
                             )
 
@@ -241,5 +249,6 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val ID = "id"
+        private const val ID_REDUX = "{id}/"
     }
 }

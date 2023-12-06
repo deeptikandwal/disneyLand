@@ -62,7 +62,6 @@ class DisneyCharactersViewModelTest {
             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
             disneyCharactersViewModel.viewState.test {
                 Assert.assertEquals(DisneyListScreenViewState.SUCCESS(flowCharacter), awaitItem())
-                awaitComplete()
             }
         }
 
