@@ -71,8 +71,4 @@ class DisneyCharactersViewModelTest {
     fun tearDown() {
         Dispatchers.resetMain()
     }
-
-    companion object {
-        const val ID = "209"
-    }
 }

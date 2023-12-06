@@ -35,7 +35,7 @@ fun setDetailScreen(actor: Actor) {
             CustomImage(actor.image)
         }
 
-        Column(modifier = Modifier.padding(10.dp)) {
+        Column(modifier = Modifier.padding(top = 10.dp)) {
             Text(
                 actor.name,
                 textAlign = TextAlign.Center,

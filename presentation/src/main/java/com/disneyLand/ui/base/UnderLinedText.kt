@@ -16,6 +16,6 @@ fun UnderLinedText(text: String) {
         fontSize = 18.sp,
         textDecoration = TextDecoration.Underline,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier.padding(12.dp)
     )
 }
