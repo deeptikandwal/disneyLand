@@ -21,6 +21,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -36,7 +37,6 @@ class DisneyDetailScreenViewModelTest {
     @MockK
     private lateinit var mapper: DetailScreenMapper
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = StandardTestDispatcher()
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -65,6 +65,7 @@ class DisneyDetailScreenViewModelTest {
             with(disneyDetailsScreenViewModel) {
                 sendIntent(DisneyDetailScreenIntent.FetchCharacterById(ID))
                 viewState.test {
+                    Assert.assertEquals(DisneyDetailScreenViewState.LOADING, awaitItem())
                     Assert.assertEquals(DisneyDetailScreenViewState.SUCCESS(actor), awaitItem())
                 }
 
@@ -78,7 +79,7 @@ class DisneyDetailScreenViewModelTest {
             val exception = retrofit2.HttpException(
                 retrofit2.Response.error<ResponseBody>(
                     503,
-                    ResponseBody.create("plain/text".toMediaTypeOrNull(), "Address not found")
+                    "Address not found".toResponseBody("plain/text".toMediaTypeOrNull())
                 )
             )
 
@@ -118,7 +119,7 @@ class DisneyDetailScreenViewModelTest {
         Dispatchers.resetMain()
     }
 
-    companion object {
-        private const val ID = "209"
+    private companion object {
+        const val ID = "209"
     }
 }

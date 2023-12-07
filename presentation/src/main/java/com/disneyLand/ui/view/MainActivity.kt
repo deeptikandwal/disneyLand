@@ -24,9 +24,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import androidx.paging.PagingData
 import com.disneyLand.model.Actor
 import com.disneyLand.model.Character
@@ -132,7 +134,7 @@ class MainActivity : ComponentActivity() {
                     AppTopBar {
                         if (navController.currentDestination?.route == ScreenDestination.Home.route) {
                             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
-                        } else if (navController.currentDestination?.route == ID_REDUX + ScreenDestination.Details.route) {
+                        } else if (navController.currentDestination?.route == ScreenDestination.Details.route + ID_REDUX) {
                             disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
                         }
                     }
@@ -159,7 +161,15 @@ class MainActivity : ComponentActivity() {
                 }
                 setHomeScreen()
             }
-            composable(route = ID_REDUX + ScreenDestination.Details.route) {
+            composable(
+                route = ScreenDestination.Details.route + ID_REDUX,
+                arguments = listOf(
+                    navArgument(ID) {
+                        defaultValue = ""
+                        type = NavType.StringType
+                    }
+                )
+            ) {
                 BackHandler {
                     disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
                 }
@@ -221,11 +231,14 @@ class MainActivity : ComponentActivity() {
                 launch {
                     disneyCharactersViewModel.sideEffect.collectLatest { sideEffectHome ->
                         when (sideEffectHome) {
-                            is DisneyListScreenSideEffect.NavigateToDetailsScreen -> navController.navigate(
-                                ScreenDestination.Details.createRoute(
-                                    sideEffectHome.id
+                            is DisneyListScreenSideEffect.NavigateToDetailsScreen -> {
+                                navController.navigate(
+                                    ScreenDestination.Details.route + "/" + ID_REDUX.replace(
+                                        oldValue = ID_REDUX,
+                                        newValue = sideEffectHome.id.toString()
+                                    )
                                 )
-                            )
+                            }
 
                             is DisneyListScreenSideEffect.NavigateUp -> {
                                 finish()
@@ -249,6 +262,6 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         private const val ID = "id"
-        private const val ID_REDUX = "{id}/"
+        private const val ID_REDUX = "/{id}"
     }
 }

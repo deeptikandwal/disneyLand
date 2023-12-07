@@ -19,12 +19,14 @@ class DisneyCharactersListUsecaseImplTest {
 
     @MockK
     private lateinit var disneyCharactersRepository: DisneyCharactersRepository
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         disneyCharactersListUsecaseImpl =
             DisneyCharactersListUsecaseImpl(disneyCharactersRepository)
     }
+
     @Test
     fun `fetch disney characters list successfully`() {
         coEvery { disneyCharactersRepository.fetchDisneyCharacters() } answers {

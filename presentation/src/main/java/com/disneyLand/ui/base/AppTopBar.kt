@@ -13,10 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.disneyLand.R
+
+private const val TEST_TAG = "ic_back"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,11 +40,14 @@ fun AppTopBar(navigateBack: () -> Unit) {
             Icon(
                 painter = painterResource(R.drawable.ic_back),
                 tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = null,
-                modifier = Modifier.padding(5.dp).clickable {
-                    // back press
-                    navigateBack()
-                }
+                contentDescription = TEST_TAG,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .semantics { testTag = TEST_TAG }
+                    .clickable {
+                        // back press
+                        navigateBack()
+                    }
             )
         }
     )

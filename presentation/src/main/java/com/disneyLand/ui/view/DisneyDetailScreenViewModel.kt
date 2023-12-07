@@ -12,6 +12,7 @@ import com.disneyLand.ui.components.DisneyDetailScreenSideEffect
 import com.disneyLand.ui.components.DisneyDetailScreenViewState
 import com.disneyLand.usecase.DisneyActorUsecase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,6 +42,9 @@ class DisneyDetailScreenViewModel @Inject constructor(
 
         viewModelScope.launch {
             disneyActorUsecase(id)
+                .catch {
+                    updateViewState(DisneyDetailScreenViewState.ERROR(it.message.toString()))
+                }
                 .collectLatest { outcome ->
                     when (outcome) {
                         is Outcome.Success -> {
