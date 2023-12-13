@@ -11,6 +11,7 @@ import com.disneyLand.source.ActorMapper
 import com.disneyLand.source.DisneyApiService
 import com.disneyLand.source.DisneyMapper
 import com.disneyLand.source.DisneyPagingSource
+import com.disneyLand.source.safeApiCall
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,12 +36,16 @@ class DisneyCharactersRepositoryImpl @Inject constructor(
 
     override fun fetchDisneyCharacterById(id: String): Flow<Outcome<DisneyActor>> {
         return flow {
-            try {
-                val response = disneyApiService.fetchDisneyCharacterById(id)
-                emit(Outcome.Success(actorMapper.mapToDisneyActor(response)!!))
-            } catch (e: Exception) {
-                emit(Outcome.Failure(e))
-            }
+            val response = safeApiCall(
+                ioDispatcher,
+                {
+                    disneyApiService.fetchDisneyCharacterById(id)
+                },
+                { dto ->
+                    actorMapper.mapToDisneyActor(dto)!!
+                }
+            )
+            emit(response)
         }.flowOn(ioDispatcher)
     }
 

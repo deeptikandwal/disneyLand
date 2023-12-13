@@ -57,7 +57,7 @@ class DisneyCharactersRepositoryImplTest {
     }
 
     @Test
-    fun ` fetch disney character GIVEN id WHEN fetch Disney Character api call is made`() =
+    fun `fetch disney character GIVEN id WHEN fetch Disney Character api call is made`() =
         runTest {
             val response = FakeDisneyActor.getSuccessfulDisneyActorDTO()
             val actor = FakeDisneyActor.getSuccessfulDisneyActor()

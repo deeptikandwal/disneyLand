@@ -1,7 +1,7 @@
 package com.disneyLand.di
 
-import com.disneyLand.BuildConfig
 import com.disneyLand.source.DisneyApiService
+import com.disneyland.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

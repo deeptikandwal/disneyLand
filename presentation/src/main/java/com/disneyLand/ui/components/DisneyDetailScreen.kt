@@ -15,11 +15,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.disneyLand.R
 import com.disneyLand.model.Actor
 import com.disneyLand.ui.base.CustomImage
 import com.disneyLand.ui.base.CustomText
 import com.disneyLand.ui.base.UnderLinedText
+import com.disneyland.R
 
 @Composable
 fun DisneyDetailScreen(actor: Actor?) {

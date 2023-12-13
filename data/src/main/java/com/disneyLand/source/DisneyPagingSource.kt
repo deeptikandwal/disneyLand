@@ -6,8 +6,6 @@ import androidx.annotation.RequiresExtension
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.disneyLand.model.DisneyListCharacter
-import retrofit2.HttpException
-import java.io.IOException
 
 class DisneyPagingSource(
     private val remoteDataSource: DisneyApiService,
@@ -31,11 +29,7 @@ class DisneyPagingSource(
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = if (charactersDto.data.isEmpty()) null else nextPageNumber
             )
-        } catch (exception: retrofit2.HttpException) {
-            return LoadResult.Error(exception)
-        } catch (exception: IOException) {
-            return LoadResult.Error(exception)
-        } catch (exception: HttpException) {
+        } catch (exception: Exception) {
             return LoadResult.Error(exception)
         }
     }

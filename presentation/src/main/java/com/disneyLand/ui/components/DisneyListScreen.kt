@@ -29,12 +29,12 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.disneyLand.R
 import com.disneyLand.model.Character
 import com.disneyLand.ui.base.CustomCard
 import com.disneyLand.ui.base.CustomImage
 import com.disneyLand.ui.base.NotFound
 import com.disneyLand.ui.base.ProgressBar
+import com.disneyland.R
 import kotlinx.coroutines.flow.Flow
 
 @Composable

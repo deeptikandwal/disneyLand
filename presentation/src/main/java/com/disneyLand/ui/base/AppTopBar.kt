@@ -18,7 +18,7 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.disneyLand.R
+import com.disneyland.R
 
 private const val TEST_TAG = "ic_back"
 

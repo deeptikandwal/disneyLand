@@ -10,11 +10,11 @@ ktlint {
 }
 
 android {
-    namespace = "com.disneyLand"
-    compileSdk = 34
+    namespace = rootProject.extra.get("appId") as String
+    compileSdk = rootProject.extra.get("compileSdk") as Int
 
     defaultConfig {
-        minSdk = 21
+        minSdk = rootProject.extra.get("minSdk") as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -40,33 +40,27 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("androidx.core:core-ktx:${rootProject.extra.get("ktx")}")
+    implementation("androidx.appcompat:appcompat:${rootProject.extra.get("appCompat")}")
+    implementation("com.google.android.material:material:${rootProject.extra.get("material_version")}")
+    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra.get("junitTest")}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra.get("espresso")}")
     // paging
-    val pagingVersion = "3.2.0-alpha06"
-    api("androidx.paging:paging-runtime:$pagingVersion")
-    api("androidx.paging:paging-compose:1.0.0-alpha20")
+    api("androidx.paging:paging-runtime-ktx:${rootProject.extra.get("pagingVersion")}")
+    api("androidx.paging:paging-compose:${rootProject.extra.get("pagingVersion")}")
 
     // hilt
-    api("com.google.dagger:hilt-android:2.45")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
-    api("androidx.hilt:hilt-navigation-fragment:1.0.0")
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0")
+    implementation("com.google.dagger:hilt-android:${rootProject.extra.get("hilt")}")
+    kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra.get("hilt")}")
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
     // test
-    androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("app.cash.turbine:turbine:1.0.0")
-    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra.get("coroutineTesting")}")
+    androidTestImplementation("androidx.arch.core:core-testing:${rootProject.extra.get("archCoreTesting")}")
+    testImplementation("androidx.arch.core:core-testing:${rootProject.extra.get("archCoreTesting")}")
+    testImplementation("app.cash.turbine:turbine:${rootProject.extra.get("turbine")}")
+    testImplementation("junit:junit:${rootProject.extra.get("junit")}")
 
     // Mockk
-    testImplementation("io.mockk:mockk:1.13.7")
-    testImplementation("io.mockk:mockk-android:1.13.7")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.0.0")
-    testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
+    testImplementation("io.mockk:mockk:${rootProject.extra.get("mockk")}")
+    testImplementation("io.mockk:mockk-android:${rootProject.extra.get("mockk")}")
 }
