@@ -1,4 +1,4 @@
-package com.disneyLand.ui.base
+package com.disneyLand.ui.components
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

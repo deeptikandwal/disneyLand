@@ -32,18 +32,18 @@ import androidx.navigation.navArgument
 import androidx.paging.PagingData
 import com.disneyLand.model.Actor
 import com.disneyLand.model.Character
-import com.disneyLand.ui.base.AppTopBar
-import com.disneyLand.ui.base.NotFound
-import com.disneyLand.ui.base.ProgressBar
-import com.disneyLand.ui.components.DisneyDetailScreen
-import com.disneyLand.ui.components.DisneyDetailScreenIntent
-import com.disneyLand.ui.components.DisneyDetailScreenSideEffect
-import com.disneyLand.ui.components.DisneyDetailScreenViewState
-import com.disneyLand.ui.components.DisneyListScreen
-import com.disneyLand.ui.components.DisneyListScreenIntent
-import com.disneyLand.ui.components.DisneyListScreenSideEffect
-import com.disneyLand.ui.components.DisneyListScreenViewState
+import com.disneyLand.ui.components.AppTopBar
+import com.disneyLand.ui.components.NotFound
+import com.disneyLand.ui.components.ProgressBar
+import com.disneyLand.ui.view.screens.details.DisneyDetailScreen
+import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenIntent
+import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenSideEffect
+import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenViewState
+import com.disneyLand.ui.view.screens.home.DisneyListScreen
 import com.disneyLand.ui.theme.DisneyLandTheme
+import com.disneyLand.ui.view.screens.details.DisneyDetailScreenViewModel
+import com.disneyLand.ui.view.screens.home.DisneyCharactersViewModel
+import com.disneyLand.ui.view.screens.home.DisneyListMviContract
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -76,13 +76,13 @@ class MainActivity : ComponentActivity() {
                 launch {
                     disneyCharactersViewModel.viewState.collectLatest { viewState ->
                         when (viewState) {
-                            is DisneyListScreenViewState.LOADING -> isHomeScreenLoading = true
-                            is DisneyListScreenViewState.SUCCESS -> {
+                            is DisneyListMviContract.DisneyListScreenViewState.LOADING -> isHomeScreenLoading = true
+                            is DisneyListMviContract.DisneyListScreenViewState.SUCCESS -> {
                                 isHomeScreenLoading = false
                                 disneyCharacters = viewState.data
                             }
 
-                            is DisneyListScreenViewState.ERROR -> {
+                            is DisneyListMviContract.DisneyListScreenViewState.ERROR -> {
                                 isHomeScreenLoading = false
                                 showHomeScreenError = true
                             }
@@ -125,7 +125,7 @@ class MainActivity : ComponentActivity() {
                 var initialApiCalled by rememberSaveable { mutableStateOf(false) }
                 if (!initialApiCalled) {
                     LaunchedEffect(Unit) {
-                        disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
+                        disneyCharactersViewModel.sendIntent(DisneyListMviContract.DisneyListScreenIntent.FetchCharactersList)
                         initialApiCalled = true
                     }
                 }
@@ -133,7 +133,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(topBar = {
                     AppTopBar {
                         if (navController.currentDestination?.route == ScreenDestination.Home.route) {
-                            disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
+                            disneyCharactersViewModel.sendIntent(DisneyListMviContract.DisneyListScreenIntent.NavigateUp)
                         } else if (navController.currentDestination?.route == ScreenDestination.Details.route + ID_REDUX) {
                             disneyDetailScreenViewModel.sendIntent(DisneyDetailScreenIntent.NavigateUp)
                         }
@@ -157,7 +157,7 @@ class MainActivity : ComponentActivity() {
         NavHost(navController, startDestination = ScreenDestination.Home.route) {
             composable(route = ScreenDestination.Home.route) {
                 BackHandler {
-                    disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.NavigateUp)
+                    disneyCharactersViewModel.sendIntent(DisneyListMviContract.DisneyListScreenIntent.NavigateUp)
                 }
                 setHomeScreen()
             }
@@ -209,7 +209,7 @@ class MainActivity : ComponentActivity() {
                 disneyCharacters,
                 { id ->
                     disneyCharactersViewModel.sendIntent(
-                        DisneyListScreenIntent.NavigateToDetails(
+                        DisneyListMviContract.DisneyListScreenIntent.NavigateToDetails(
                             id
                         )
                     )
@@ -231,7 +231,7 @@ class MainActivity : ComponentActivity() {
                 launch {
                     disneyCharactersViewModel.sideEffect.collectLatest { sideEffectHome ->
                         when (sideEffectHome) {
-                            is DisneyListScreenSideEffect.NavigateToDetailsScreen -> {
+                            is DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen -> {
                                 navController.navigate(
                                     ScreenDestination.Details.route + "/" + ID_REDUX.replace(
                                         oldValue = ID_REDUX,
@@ -240,7 +240,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            is DisneyListScreenSideEffect.NavigateUp -> {
+                            is DisneyListMviContract.DisneyListScreenSideEffect.NavigateUp -> {
                                 finish()
                             }
                         }

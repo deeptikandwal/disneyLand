@@ -1,4 +1,4 @@
-package com.disneyLand.ui.view
+package com.disneyLand.ui.view.screens.home
 
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
@@ -7,8 +7,8 @@ import app.cash.turbine.test
 import com.disneyLand.model.Character
 import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.source.HomeScreenMapper
-import com.disneyLand.ui.components.DisneyListScreenIntent
-import com.disneyLand.ui.components.DisneyListScreenViewState
+import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenIntent
+import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenViewState
 import com.disneyLand.usecase.DisneyCharactersListUsecase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

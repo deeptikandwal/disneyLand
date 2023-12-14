@@ -1,12 +1,12 @@
-package com.disneyLand.ui.view
+package com.disneyLand.ui.view.screens.details
 
 import app.cash.turbine.test
 import com.disneyLand.Outcome
 import com.disneyLand.model.Actor
 import com.disneyLand.model.DisneyActor
 import com.disneyLand.source.DetailScreenMapper
-import com.disneyLand.ui.components.DisneyDetailScreenIntent
-import com.disneyLand.ui.components.DisneyDetailScreenViewState
+import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenIntent
+import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenViewState
 import com.disneyLand.usecase.DisneyActorUsecase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

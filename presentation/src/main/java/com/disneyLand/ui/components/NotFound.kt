@@ -1,4 +1,4 @@
-package com.disneyLand.ui.base
+package com.disneyLand.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

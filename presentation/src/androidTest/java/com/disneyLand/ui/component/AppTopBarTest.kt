@@ -5,7 +5,7 @@ import androidx.compose.ui.test.isRoot
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.printToLog
-import com.disneyLand.ui.base.AppTopBar
+import com.disneyLand.ui.components.AppTopBar
 import org.junit.Rule
 import org.junit.Test
 

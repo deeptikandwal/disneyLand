@@ -1,4 +1,4 @@
-package com.disneyLand.ui.components
+package com.disneyLand.ui.view.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -30,10 +30,10 @@ import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.disneyLand.model.Character
-import com.disneyLand.ui.base.CustomCard
-import com.disneyLand.ui.base.CustomImage
-import com.disneyLand.ui.base.NotFound
-import com.disneyLand.ui.base.ProgressBar
+import com.disneyLand.ui.components.CustomCard
+import com.disneyLand.ui.components.CustomImage
+import com.disneyLand.ui.components.NotFound
+import com.disneyLand.ui.components.ProgressBar
 import com.disneyland.R
 import kotlinx.coroutines.flow.Flow
 
