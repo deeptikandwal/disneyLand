@@ -9,7 +9,6 @@ import com.disneyLand.model.DisneyListCharacter
 
 class DisneyPagingSource(
     private val remoteDataSource: DisneyApiService,
-    private val mapper: DisneyMapper
 ) : PagingSource<Int, DisneyListCharacter>() {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
@@ -25,7 +24,7 @@ class DisneyPagingSource(
                 nextPageNumber = nextPageQuery?.toInt()
             }
             LoadResult.Page(
-                data = mapper.mapToDisneyCharacter(charactersDto.data),
+                data = charactersDto.data.mapToDisneyCharacter(),
                 prevKey = if (currentPage == 1) null else currentPage - 1,
                 nextKey = if (charactersDto.data.isEmpty()) null else nextPageNumber
             )

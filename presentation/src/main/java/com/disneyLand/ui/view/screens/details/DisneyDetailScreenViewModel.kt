@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disneyLand.Outcome
 import com.disneyLand.base.SideEffect
-import com.disneyLand.source.DetailScreenMapper
+import com.disneyLand.source.mapToDetailScreenData
 import com.disneyLand.usecase.DisneyActorUsecaseImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,11 +21,11 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyDetailScreenViewModel @Inject constructor(
     private val disneyActorUsecase: DisneyActorUsecaseImpl,
-    private val detailScreenMapper: DetailScreenMapper
 ) : DisneyDetailMviContract, ViewModel() {
     private var _viewState = MutableStateFlow(createInitialState())
     private var _sideEffect =
         MutableSharedFlow<DisneyDetailMviContract.DisneyDetailScreenSideEffect>()
+
     override fun createInitialState(): DisneyDetailMviContract.DisneyDetailScreenViewState =
         DisneyDetailMviContract.DisneyDetailScreenViewState.LOADING
 
@@ -58,17 +58,20 @@ class DisneyDetailScreenViewModel @Inject constructor(
         viewModelScope.launch {
             disneyActorUsecase(id)
                 .catch {
-                    _viewState.value = DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(it.message.toString())
+                    _viewState.value =
+                        DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(it.message.toString())
                 }
                 .collectLatest { outcome ->
                     when (outcome) {
                         is Outcome.Success -> {
-                            val actor = detailScreenMapper.mapToDetailScreenData(outcome.value)
-                            _viewState.value = DisneyDetailMviContract.DisneyDetailScreenViewState.SUCCESS(actor)
+                            val actor = (outcome.value).mapToDetailScreenData()
+                            _viewState.value =
+                                DisneyDetailMviContract.DisneyDetailScreenViewState.SUCCESS(actor)
                         }
 
                         is Outcome.Failure -> {
-                            _viewState.value = DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(outcome.error.message.toString())
+                            _viewState.value =
+                                DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(outcome.error.message.toString())
                         }
                     }
                 }

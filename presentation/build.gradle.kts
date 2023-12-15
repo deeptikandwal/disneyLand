@@ -97,6 +97,7 @@ dependencies {
     // Mockk
     testImplementation("io.mockk:mockk:${rootProject.extra.get("mockk")}")
     testImplementation("io.mockk:mockk-android:${rootProject.extra.get("mockk")}")
+    testImplementation("pl.pragmatists:JUnitParams:1.1.1")
 
     // hilt
     implementation("com.google.dagger:hilt-android:${rootProject.extra.get("hilt")}")

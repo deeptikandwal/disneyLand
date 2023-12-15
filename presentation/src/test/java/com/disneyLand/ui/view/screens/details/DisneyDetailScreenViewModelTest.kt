@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.disneyLand.Outcome
 import com.disneyLand.model.Actor
 import com.disneyLand.model.DisneyActor
-import com.disneyLand.source.DetailScreenMapper
 import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenIntent
 import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenViewState
 import com.disneyLand.usecase.DisneyActorUsecaseImpl
@@ -34,9 +33,6 @@ class DisneyDetailScreenViewModelTest {
     @MockK
     private lateinit var disneyActorUsecase: DisneyActorUsecaseImpl
 
-    @MockK
-    private lateinit var mapper: DetailScreenMapper
-
     private val testDispatcher = StandardTestDispatcher()
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -44,7 +40,7 @@ class DisneyDetailScreenViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        disneyDetailsScreenViewModel = DisneyDetailScreenViewModel(disneyActorUsecase, mapper)
+        disneyDetailsScreenViewModel = DisneyDetailScreenViewModel(disneyActorUsecase)
     }
 
     @Test
@@ -61,7 +57,6 @@ class DisneyDetailScreenViewModelTest {
                 }
             }
 
-            every { mapper.mapToDetailScreenData(disneyActor) } returns actor
             with(disneyDetailsScreenViewModel) {
                 sendIntent(DisneyDetailScreenIntent.FetchCharacterById(ID))
                 viewState.test {
@@ -105,7 +100,7 @@ class DisneyDetailScreenViewModelTest {
     )
 
     private fun getActor() = Actor(
-        "Alladin",
+        "ALLADIN",
         "This character featured in films, tv shows and video games like Aladdin(film), The Return of Jafar",
         "World of color, Golden FairyTale Fanfare",
         "",

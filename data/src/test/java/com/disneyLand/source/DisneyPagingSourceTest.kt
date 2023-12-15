@@ -2,10 +2,13 @@ package com.disneyLand.source
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource
+import com.disneyLand.dto.Characters
 import com.disneyLand.dto.DisneyCharactersListDto
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -24,9 +27,6 @@ class DisneyPagingSourceTest {
     @MockK
     private lateinit var disneyApiService: DisneyApiService
 
-    @MockK
-    private lateinit var disneyMapper: DisneyMapper
-
     @get:Rule
     private val instantTaskExecutorRule = InstantTaskExecutorRule()
     private val testDispatcher = StandardTestDispatcher()
@@ -36,13 +36,16 @@ class DisneyPagingSourceTest {
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        disneyPagingSource = DisneyPagingSource(disneyApiService, disneyMapper)
+        disneyPagingSource = DisneyPagingSource(disneyApiService)
     }
 
     @Test
     fun `get characters list successfully`() = runTest {
         val list = FakeDisneyListCharacters.getDisneyListCharacters()
-        coEvery { disneyMapper.mapToDisneyCharacter(any()) } returns list
+        val dto = mockk<DisneyCharactersListDto>()
+        val data = mockk<ArrayList<Characters>>()
+        every { dto.data } returns data
+        every { data.mapToDisneyCharacter() } returns list
         coEvery {
             disneyApiService.fetchDisneyCharacters(
                 any(),

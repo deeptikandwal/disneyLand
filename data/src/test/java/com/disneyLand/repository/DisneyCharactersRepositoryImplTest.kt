@@ -4,13 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.disneyLand.Outcome
 import com.disneyLand.model.DisneyActor
-import com.disneyLand.source.ActorMapper
 import com.disneyLand.source.DisneyApiService
-import com.disneyLand.source.DisneyMapper
 import com.disneyLand.source.FakeDisneyActor
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -37,12 +34,6 @@ class DisneyCharactersRepositoryImplTest {
     @MockK
     private lateinit var disneyApiService: DisneyApiService
 
-    @MockK
-    private lateinit var disneyMapper: DisneyMapper
-
-    @MockK
-    private lateinit var actorMapper: ActorMapper
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
@@ -50,8 +41,6 @@ class DisneyCharactersRepositoryImplTest {
         Dispatchers.setMain(testDispatcher)
         disneyCharactersRepositoryImpl = DisneyCharactersRepositoryImpl(
             disneyApiService,
-            disneyMapper,
-            actorMapper,
             testDispatcher
         )
     }
@@ -63,7 +52,6 @@ class DisneyCharactersRepositoryImplTest {
             val actor = FakeDisneyActor.getSuccessfulDisneyActor()
 
             coEvery { disneyApiService.fetchDisneyCharacterById(ID) } returns response
-            every { actorMapper.mapToDisneyActor(response) } returns actor
 
             disneyCharactersRepositoryImpl.fetchDisneyCharacterById(ID).test {
                 Assert.assertEquals(Outcome.Success<DisneyActor>(actor), awaitItem())

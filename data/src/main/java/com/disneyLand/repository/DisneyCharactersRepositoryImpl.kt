@@ -7,10 +7,9 @@ import com.disneyLand.Outcome
 import com.disneyLand.di.IODispatcher
 import com.disneyLand.model.DisneyActor
 import com.disneyLand.model.DisneyListCharacter
-import com.disneyLand.source.ActorMapper
 import com.disneyLand.source.DisneyApiService
-import com.disneyLand.source.DisneyMapper
 import com.disneyLand.source.DisneyPagingSource
+import com.disneyLand.source.mapToDisneyActor
 import com.disneyLand.source.safeApiCall
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -20,15 +19,13 @@ import javax.inject.Inject
 
 class DisneyCharactersRepositoryImpl @Inject constructor(
     private val disneyApiService: DisneyApiService,
-    private val mapper: DisneyMapper,
-    private val actorMapper: ActorMapper,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : DisneyCharactersRepository {
     override fun fetchDisneyCharacters(): Flow<PagingData<DisneyListCharacter>> {
         return Pager(
             config = PagingConfig(pageSize = MAX_PAGE_SIZE, prefetchDistance = 2),
             pagingSourceFactory = {
-                DisneyPagingSource(disneyApiService, mapper)
+                DisneyPagingSource(disneyApiService)
             }
         ).flow
             .flowOn(ioDispatcher)
@@ -42,7 +39,7 @@ class DisneyCharactersRepositoryImpl @Inject constructor(
                     disneyApiService.fetchDisneyCharacterById(id)
                 },
                 { dto ->
-                    actorMapper.mapToDisneyActor(dto)!!
+                    dto.mapToDisneyActor()!!
                 }
             )
             emit(response)
