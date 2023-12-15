@@ -7,7 +7,7 @@ import com.disneyLand.model.DisneyActor
 import com.disneyLand.source.DetailScreenMapper
 import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenIntent
 import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDetailScreenViewState
-import com.disneyLand.usecase.DisneyActorUsecase
+import com.disneyLand.usecase.DisneyActorUsecaseImpl
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -32,7 +32,7 @@ class DisneyDetailScreenViewModelTest {
     private lateinit var disneyDetailsScreenViewModel: DisneyDetailScreenViewModel
 
     @MockK
-    private lateinit var disneyActorUsecase: DisneyActorUsecase
+    private lateinit var disneyActorUsecase: DisneyActorUsecaseImpl
 
     @MockK
     private lateinit var mapper: DetailScreenMapper

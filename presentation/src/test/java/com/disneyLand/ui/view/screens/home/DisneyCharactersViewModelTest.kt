@@ -9,7 +9,7 @@ import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.source.HomeScreenMapper
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenIntent
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenViewState
-import com.disneyLand.usecase.DisneyCharactersListUsecase
+import com.disneyLand.usecase.DisneyCharactersListUsecaseImpl
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
@@ -32,7 +32,7 @@ class DisneyCharactersViewModelTest {
     private lateinit var disneyCharactersViewModel: DisneyCharactersViewModel
 
     @MockK
-    private lateinit var disneyCharactersListUsecase: DisneyCharactersListUsecase
+    private lateinit var disneyCharactersListUsecase: DisneyCharactersListUsecaseImpl
 
     @MockK
     private lateinit var mapper: HomeScreenMapper
