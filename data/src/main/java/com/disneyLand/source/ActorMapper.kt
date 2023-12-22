@@ -4,9 +4,7 @@ import com.disneyLand.dto.DisneyActorDto
 import com.disneyLand.model.DisneyActor
 
 fun DisneyActorDto?.mapToDisneyActor(): DisneyActor? {
-    var disneyActor: DisneyActor? = null
-    this?.data?.run {
-        disneyActor = try {
+    return this?.data?.run {
             val enemy = enemies?.joinToString {
                 it
             }.toString()
@@ -32,11 +30,7 @@ fun DisneyActorDto?.mapToDisneyActor(): DisneyActor? {
                 ally,
                 imageUrl.toString()
             )
-        } catch (e: Exception) {
-            DisneyActor("", "", "", "", "", "")
-        }
     }
-    return disneyActor
 }
 
 private fun setDescription(

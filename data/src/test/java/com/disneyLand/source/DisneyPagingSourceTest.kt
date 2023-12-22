@@ -1,5 +1,6 @@
 package com.disneyLand.source
 
+import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingSource
 import com.disneyLand.dto.Characters
@@ -9,6 +10,7 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -52,10 +54,16 @@ class DisneyPagingSourceTest {
                 any()
             )
         } returns FakeDisneyListCharacters.getDisneyListCharactersDto()
+        mockkStatic(Uri::class)
+        val uriMock = mockk<Uri>()
+        every { Uri.parse(any()) } returns uriMock
+        every { uriMock.getQueryParameter(any()) } answers {
+            "2"
+        }
         val expectedResult = PagingSource.LoadResult.Page(
             data = list,
             prevKey = null,
-            nextKey = null
+            nextKey = 2
         )
         Assert.assertEquals(
             expectedResult,

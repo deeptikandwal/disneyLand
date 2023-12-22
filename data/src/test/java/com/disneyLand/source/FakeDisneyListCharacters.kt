@@ -2,13 +2,14 @@ package com.disneyLand.source
 
 import com.disneyLand.dto.Characters
 import com.disneyLand.dto.DisneyCharactersListDto
+import com.disneyLand.dto.Info
 import com.disneyLand.model.DisneyListCharacter
 
 class FakeDisneyListCharacters {
     companion object {
         fun getDisneyListCharactersDto(): DisneyCharactersListDto {
             return DisneyCharactersListDto(
-                info = null,
+                info = Info(previousPage = "1,", nextPage = "2"),
                 arrayListOf(
                     Characters(
                         id = 247,

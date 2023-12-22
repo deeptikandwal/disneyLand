@@ -1,6 +1,8 @@
 package com.disneyLand.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.paging.PagingData
+import androidx.paging.map
 import app.cash.turbine.test
 import com.disneyLand.Outcome
 import com.disneyLand.model.DisneyActor
@@ -85,5 +87,7 @@ class DisneyCharactersRepositoryImplTest {
 
     companion object {
         private const val ID = "268"
+        private const val PAGE_SIZE = 20
+
     }
 }
