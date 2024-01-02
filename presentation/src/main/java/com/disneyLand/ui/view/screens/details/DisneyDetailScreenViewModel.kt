@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.disneyLand.Outcome
 import com.disneyLand.base.SideEffect
-import com.disneyLand.source.mapToDetailScreenData
+import com.disneyLand.source.DetailScreenMapper
 import com.disneyLand.usecase.DisneyActorUsecaseImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyDetailScreenViewModel @Inject constructor(
     private val disneyActorUsecase: DisneyActorUsecaseImpl,
+    private val detailScreenMapper: DetailScreenMapper,
 ) : DisneyDetailMviContract, ViewModel() {
     private var _viewState = MutableStateFlow(createInitialState())
     private var _sideEffect =
@@ -65,7 +66,9 @@ class DisneyDetailScreenViewModel @Inject constructor(
                     when (outcome) {
                         is Outcome.Success -> {
                             _viewState.value =
-                                DisneyDetailMviContract.DisneyDetailScreenViewState.Success((outcome.value).mapToDetailScreenData())
+                                DisneyDetailMviContract.DisneyDetailScreenViewState.Success(
+                                    detailScreenMapper.mapToDetailScreenData(outcome.value)
+                                )
                         }
 
                         is Outcome.Failure -> {

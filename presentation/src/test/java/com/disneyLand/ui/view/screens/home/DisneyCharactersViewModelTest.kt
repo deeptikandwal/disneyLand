@@ -4,41 +4,30 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import app.cash.turbine.test
+import com.disneyLand.BaseTest
 import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenIntent
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenViewState
 import com.disneyLand.usecase.DisneyCharactersListUsecaseImpl
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class DisneyCharactersViewModelTest {
+class DisneyCharactersViewModelTest : BaseTest() {
 
     private lateinit var disneyCharactersViewModel: DisneyCharactersViewModel
 
     @MockK
     private lateinit var disneyCharactersListUsecase: DisneyCharactersListUsecaseImpl
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val testDispatcher = UnconfinedTestDispatcher()
-
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
-    fun setUp() {
-        MockKAnnotations.init(this)
-        Dispatchers.setMain(testDispatcher)
+    override fun setUp() {
+        super.setUp()
         disneyCharactersViewModel =
             DisneyCharactersViewModel(disneyCharactersListUsecase)
     }
@@ -46,10 +35,12 @@ class DisneyCharactersViewModelTest {
     @Test
     fun `fetch disney characters list successfully GIVEN intent WHEN fetchDisneyCharacters called THEN verify usecase called to get success result`() =
         runTest {
-            val pagingData = PagingData.from(getDisneyListCharacters())
+            val pagingData = PagingData.from(disneyListCharacters)
             val flowListCharacter = flow { emit(pagingData) }
             coEvery { disneyCharactersListUsecase() } answers { flowListCharacter }
+
             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
+
             verify {
                 disneyCharactersListUsecase()
             }
@@ -61,6 +52,7 @@ class DisneyCharactersViewModelTest {
             with(disneyCharactersViewModel) {
                 sideEffect.test {
                     sendIntent(DisneyListScreenIntent.NavigateToDetails(ID))
+
                     Assert.assertEquals(
                         DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen(
                             ID
@@ -76,7 +68,9 @@ class DisneyCharactersViewModelTest {
         runTest {
             with(disneyCharactersViewModel) {
                 sideEffect.test {
+
                     sendIntent(DisneyListScreenIntent.NavigateUp)
+
                     Assert.assertEquals(
                         DisneyListMviContract.DisneyListScreenSideEffect.NavigateUp, awaitItem()
                     )
@@ -92,20 +86,17 @@ class DisneyCharactersViewModelTest {
             LoadState.Loading,
             LoadState.Error(Throwable("Not found"))
         )
+
         disneyCharactersViewModel.handleLoadState(loadState)
+
         disneyCharactersViewModel.viewState.test {
             Assert.assertEquals(DisneyListScreenViewState.Error("Not found"), awaitItem())
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
-    private fun getDisneyListCharacters(): List<DisneyListCharacter> {
-        return arrayListOf(
+    private companion object {
+        const val ID = 209
+        val disneyListCharacters = arrayListOf(
             DisneyListCharacter(
                 id = 247,
                 name = "Angels",
@@ -122,9 +113,5 @@ class DisneyCharactersViewModelTest {
                 image = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
             )
         )
-    }
-
-    private companion object {
-        const val ID = 209
     }
 }

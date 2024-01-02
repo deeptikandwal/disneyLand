@@ -1,56 +1,52 @@
 package com.disneyLand.source
 
 import com.disneyLand.dto.Characters
-import com.disneyLand.dto.DisneyCharactersListDto
+import com.disneyLand.dto.DisneyCharactersList
 import com.disneyLand.dto.Info
 import com.disneyLand.model.DisneyListCharacter
 
 class FakeDisneyListCharacters {
     companion object {
-        fun getDisneyListCharactersDto(): DisneyCharactersListDto {
-            return DisneyCharactersListDto(
-                info = Info(previousPage = "1,", nextPage = "2"),
-                arrayListOf(
-                    Characters(
-                        id = 247,
-                        name = "Angela",
-                        sourceUrl = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg",
-                        imageUrl = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg"
-                    ),
-                    Characters(
-                        id = 223,
-                        name = "Erica Ange",
-                        sourceUrl = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png",
-                        imageUrl = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png"
-                    ),
-                    Characters(
-                        id = 268,
-                        name = "Anthony Biddle",
-                        sourceUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg",
-                        imageUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
-                    )
-                )
-            )
-        }
-
-        fun getDisneyListCharacters(): List<DisneyListCharacter> {
-            return arrayListOf(
-                DisneyListCharacter(
+        val disneyListCharacters = DisneyCharactersList(
+            info = Info(previousPage = "1,", nextPage = "2"),
+            arrayListOf(
+                Characters(
                     id = 247,
                     name = "Angela",
-                    image = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg"
+                    sourceUrl = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg",
+                    imageUrl = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg"
                 ),
-                DisneyListCharacter(
+                Characters(
                     id = 223,
                     name = "Erica Ange",
-                    image = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png"
+                    sourceUrl = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png",
+                    imageUrl = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png"
                 ),
-                DisneyListCharacter(
+                Characters(
                     id = 268,
                     name = "Anthony Biddle",
-                    image = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
+                    sourceUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg",
+                    imageUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
                 )
             )
-        }
+        )
+
+        val lisOfDisneyListCharacters = arrayListOf(
+            DisneyListCharacter(
+                id = 247,
+                name = "Angela",
+                image = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg"
+            ),
+            DisneyListCharacter(
+                id = 223,
+                name = "Erica Ange",
+                image = "https://static.wikia.nocookie.net/disney/images/8/88/Erica_pic.png"
+            ),
+            DisneyListCharacter(
+                id = 268,
+                name = "Anthony Biddle",
+                image = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
+            )
+        )
     }
 }

@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.disneyLand.base.SideEffect
 import com.disneyLand.model.Character
-import com.disneyLand.source.mapToHomeScreenData
+import com.disneyLand.source.HomeScreenMapper
 import com.disneyLand.usecase.DisneyCharactersListUsecaseImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyCharactersViewModel @Inject constructor(
     private val disneyCharactersListUsecase: DisneyCharactersListUsecaseImpl,
+    private val homeScreenMapper: HomeScreenMapper
 ) : ViewModel(), DisneyListMviContract {
     private lateinit var flow: Flow<PagingData<Character>>
     private var _viewState = MutableStateFlow(createInitialState())
@@ -41,7 +42,7 @@ class DisneyCharactersViewModel @Inject constructor(
 
     private fun fetchDisneyCharacters() {
         flow = disneyCharactersListUsecase().map { pagingData ->
-            pagingData.mapToHomeScreenData()
+            homeScreenMapper.mapToHomeScreenData(pagingData)
         }.cachedIn(viewModelScope)
         _viewState.value = DisneyListMviContract.DisneyListScreenViewState.Success(flow)
     }

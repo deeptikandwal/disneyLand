@@ -27,7 +27,7 @@ class DisneyMapperTest {
     }
 
     private companion object {
-       val charactersList = arrayListOf(
+        val charactersList = arrayListOf(
             Characters(
                 id = 247,
                 name = "Angela",

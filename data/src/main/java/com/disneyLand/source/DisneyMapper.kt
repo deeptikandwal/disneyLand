@@ -9,15 +9,11 @@ class DisneyMapper @Inject constructor() {
         return list
             .filter { (it.id != null && it.name != null && it.imageUrl != null) }
             .map { character ->
-                try {
                     DisneyListCharacter(
                         character.id!!,
                         character.name!!,
                         character.imageUrl!!
                     )
-                } catch (e: Exception) {
-                    return listOf()
-                }
             }
     }
 }
