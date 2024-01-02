@@ -13,11 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import com.disneyLand.ui.components.CustomNavGraph
 import com.disneyLand.ui.components.createAppTopBar
 import com.disneyLand.ui.theme.DisneyLandTheme
 import com.disneyLand.ui.view.screens.details.DisneyDetailScreen
@@ -39,36 +36,23 @@ class MainActivity : ComponentActivity() {
             DisneyLandTheme(true) {
                 navController = rememberNavController()
                 Scaffold(topBar = {
-                    createAppTopBar(navController,this)
+                    createAppTopBar(navController, this)
                 }) {
                     Surface(
                         modifier = Modifier.fillMaxSize()
                             .padding(top = it.calculateTopPadding()),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        setScreens(navController)
+                        CustomNavGraph(navController,
+                            {
+                                setHomeScreen()
+                            },
+                            {
+                                setDetailsScreen(it)
+                            }
+                        )
                     }
                 }
-            }
-        }
-    }
-
-    @Composable
-    private fun setScreens(navController: NavHostController) {
-        NavHost(navController, startDestination = ScreenDestination.Home.route) {
-            composable(route = ScreenDestination.Home.route) {
-                setHomeScreen()
-            }
-            composable(
-                route = ScreenDestination.Details.route + ID_REDUX,
-                arguments = listOf(
-                    navArgument(ID) {
-                        defaultValue = DEFAULT
-                        type = NavType.StringType
-                    }
-                )
-            ) {
-                setDetailsScreen(it)
             }
         }
     }

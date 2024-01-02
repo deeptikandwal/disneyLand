@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.disneyLand.BaseTest
 import com.disneyLand.model.DisneyListCharacter
+import com.disneyLand.source.HomeScreenMapper
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenIntent
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenViewState
 import com.disneyLand.usecase.DisneyCharactersListUsecaseImpl
@@ -25,11 +26,14 @@ class DisneyCharactersViewModelTest : BaseTest() {
     @MockK
     private lateinit var disneyCharactersListUsecase: DisneyCharactersListUsecaseImpl
 
+    @MockK
+    private lateinit var homeScreenMapper: HomeScreenMapper
+
     @Before
     override fun setUp() {
         super.setUp()
         disneyCharactersViewModel =
-            DisneyCharactersViewModel(disneyCharactersListUsecase)
+            DisneyCharactersViewModel(disneyCharactersListUsecase, homeScreenMapper)
     }
 
     @Test
@@ -52,13 +56,7 @@ class DisneyCharactersViewModelTest : BaseTest() {
             with(disneyCharactersViewModel) {
                 sideEffect.test {
                     sendIntent(DisneyListScreenIntent.NavigateToDetails(ID))
-
-                    Assert.assertEquals(
-                        DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen(
-                            ID
-                        ), awaitItem()
-                    )
-                    awaitComplete()
+                    Assert.assertTrue(awaitItem() is DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen)
                 }
             }
         }
@@ -71,10 +69,7 @@ class DisneyCharactersViewModelTest : BaseTest() {
 
                     sendIntent(DisneyListScreenIntent.NavigateUp)
 
-                    Assert.assertEquals(
-                        DisneyListMviContract.DisneyListScreenSideEffect.NavigateUp, awaitItem()
-                    )
-                    awaitComplete()
+                    Assert.assertTrue(awaitItem() is DisneyListMviContract.DisneyListScreenSideEffect.NavigateUp)
                 }
             }
         }

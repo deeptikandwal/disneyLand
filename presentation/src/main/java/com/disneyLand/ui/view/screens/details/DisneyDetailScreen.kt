@@ -129,15 +129,15 @@ private fun setActorDescription(
     UnderLinedText(list.first())
     CustomText(list.last())
 
-    if (disneyDetailScreenViewModel.setVisibility(actor.allies)) {
+    if (disneyDetailScreenViewModel.setVisibilityOfCompose(actor.allies)) {
         UnderLinedText(stringResource(R.string.allies))
         CustomText(actor.allies)
     }
-    if (disneyDetailScreenViewModel.setVisibility(actor.enemies)) {
+    if (disneyDetailScreenViewModel.setVisibilityOfCompose(actor.enemies)) {
         UnderLinedText(stringResource(R.string.enemies))
         CustomText(actor.enemies)
     }
-    if (disneyDetailScreenViewModel.setVisibility(actor.majorAttraction)) {
+    if (disneyDetailScreenViewModel.setVisibilityOfCompose(actor.majorAttraction)) {
         UnderLinedText(stringResource(R.string.attractions))
         CustomText(actor.majorAttraction)
     }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -58,10 +57,6 @@ class DisneyDetailScreenViewModel @Inject constructor(
 
         viewModelScope.launch {
             disneyActorUsecase(id)
-                .catch {
-                    _viewState.value =
-                        DisneyDetailMviContract.DisneyDetailScreenViewState.Error(it.message.toString())
-                }
                 .collectLatest { outcome ->
                     when (outcome) {
                         is Outcome.Success -> {
@@ -91,7 +86,7 @@ class DisneyDetailScreenViewModel @Inject constructor(
         return list
     }
 
-    fun setVisibility(str: String): Boolean {
+    fun setVisibilityOfCompose(str: String): Boolean {
         if (str.isNotBlank()) {
             return true
         }
