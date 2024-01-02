@@ -29,6 +29,9 @@ class DisneyPagingSourceTest {
     @MockK
     private lateinit var disneyApiService: DisneyApiService
 
+    @MockK
+    private lateinit var disneyMapper: DisneyMapper
+
     @get:Rule
     private val instantTaskExecutorRule = InstantTaskExecutorRule()
     private val testDispatcher = StandardTestDispatcher()
@@ -38,7 +41,7 @@ class DisneyPagingSourceTest {
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        disneyPagingSource = DisneyPagingSource(disneyApiService)
+        disneyPagingSource = DisneyPagingSource(disneyApiService, disneyMapper)
     }
 
     @Test
@@ -47,7 +50,7 @@ class DisneyPagingSourceTest {
         val dto = mockk<DisneyCharactersListDto>()
         val data = mockk<ArrayList<Characters>>()
         every { dto.data } returns data
-        every { data.mapToDisneyCharacter() } returns list
+        every { disneyMapper.mapToDisneyCharacter(any()) } returns list
         coEvery {
             disneyApiService.fetchDisneyCharacters(
                 any(),

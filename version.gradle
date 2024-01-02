@@ -55,5 +55,6 @@ project.ext {
     materialVersion = '1.4.3'
     kotlinCompilerExtensionVersion = '1.4.3'
     lifecycleRuntime = '2.6.2'
+    hiltCompose = '1.0.0'
 }
 

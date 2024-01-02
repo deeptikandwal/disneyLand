@@ -11,21 +11,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.TextUnit
+import com.disneyLand.ui.theme.Dimen
 import com.disneyland.R
 
-@Composable fun NotFound() {
+@Composable
+fun PlaceHolderText(
+    text: String = stringResource(R.string.data_not_found),
+    fontSize: TextUnit = Dimen.UI_SIZE_15_SP,
+    textAlign: TextAlign = TextAlign.Center
+) {
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.data_not_found),
-            fontSize = 15.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(10.dp)
+            text = text,
+            fontSize = fontSize,
+            textAlign = textAlign,
+            modifier = Modifier.fillMaxWidth().padding(Dimen.UI_SIZE_10_DP)
         )
     }
 }

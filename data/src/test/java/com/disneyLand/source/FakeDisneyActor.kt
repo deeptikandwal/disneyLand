@@ -1,15 +1,15 @@
 package com.disneyLand.source
 
 import com.disneyLand.dto.Actor
-import com.disneyLand.dto.DisneyActorDto
+import com.disneyLand.dto.DisneyOriginalActor
 import com.disneyLand.dto.Info
 import com.disneyLand.model.DisneyActor
 
 class FakeDisneyActor {
 
     companion object {
-        fun getSuccessfulDisneyActorDTO(): DisneyActorDto {
-            return DisneyActorDto(
+        fun getSuccessfulDisneyActorDTO(): DisneyOriginalActor {
+            return DisneyOriginalActor(
                 info = Info(count = 1, totalPages = 1),
                 data = Actor(
                     id = 268,

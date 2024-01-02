@@ -9,7 +9,6 @@ import com.disneyLand.ui.view.screens.details.DisneyDetailMviContract.DisneyDeta
 import com.disneyLand.usecase.DisneyActorUsecaseImpl
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -60,8 +59,8 @@ class DisneyDetailScreenViewModelTest {
             with(disneyDetailsScreenViewModel) {
                 sendIntent(DisneyDetailScreenIntent.FetchCharacterById(ID))
                 viewState.test {
-                    Assert.assertEquals(DisneyDetailScreenViewState.LOADING, awaitItem())
-                    Assert.assertEquals(DisneyDetailScreenViewState.SUCCESS(actor), awaitItem())
+                    Assert.assertEquals(DisneyDetailScreenViewState.Loading, awaitItem())
+                    Assert.assertEquals(DisneyDetailScreenViewState.Success(actor), awaitItem())
                 }
 
                 Assert.assertEquals(actor.name, disneyActor.name)
@@ -85,7 +84,7 @@ class DisneyDetailScreenViewModelTest {
             with(disneyDetailsScreenViewModel) {
                 sendIntent(DisneyDetailScreenIntent.FetchCharacterById(ID))
                 viewState.test {
-                    Assert.assertEquals(DisneyDetailScreenViewState.LOADING, awaitItem())
+                    Assert.assertEquals(DisneyDetailScreenViewState.Loading, awaitItem())
                 }
             }
         }

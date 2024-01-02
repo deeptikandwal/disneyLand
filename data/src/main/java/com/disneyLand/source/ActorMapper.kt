@@ -1,10 +1,12 @@
 package com.disneyLand.source
 
-import com.disneyLand.dto.DisneyActorDto
+import com.disneyLand.dto.DisneyOriginalActor
 import com.disneyLand.model.DisneyActor
+import javax.inject.Inject
 
-fun DisneyActorDto?.mapToDisneyActor(): DisneyActor? {
-    return this?.data?.run {
+class ActorMapper @Inject constructor() {
+    fun mapToDisneyActor(disneyOriginalActor: DisneyOriginalActor): DisneyActor {
+        return disneyOriginalActor.data?.run {
             val enemy = enemies?.joinToString {
                 it
             }.toString()
@@ -30,29 +32,30 @@ fun DisneyActorDto?.mapToDisneyActor(): DisneyActor? {
                 ally,
                 imageUrl.toString()
             )
+        } ?: DisneyActor()
     }
-}
 
-private fun setDescription(
-    films: ArrayList<String>?,
-    shortfilms: ArrayList<String>?,
-    tvShows: ArrayList<String>?,
-    videoGames: ArrayList<String>?,
-): String {
-    val attractions = films?.joinToString(", ") { film ->
-        film
-    }.plus(
-        shortfilms?.joinToString { shortFilm ->
-            shortFilm
-        }
-    ).plus(
-        tvShows?.joinToString { tvShow ->
-            tvShow
-        }
-    ).plus(
-        videoGames?.joinToString { videoGame ->
-            videoGame
-        }
-    )
-    return attractions
+    private fun setDescription(
+        films: ArrayList<String>?,
+        shortfilms: ArrayList<String>?,
+        tvShows: ArrayList<String>?,
+        videoGames: ArrayList<String>?,
+    ): String {
+        val attractions = films?.joinToString(", ") { film ->
+            film
+        }.plus(
+            shortfilms?.joinToString { shortFilm ->
+                shortFilm
+            }
+        ).plus(
+            tvShows?.joinToString { tvShow ->
+                tvShow
+            }
+        ).plus(
+            videoGames?.joinToString { videoGame ->
+                videoGame
+            }
+        )
+        return attractions
+    }
 }

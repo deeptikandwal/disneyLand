@@ -14,7 +14,7 @@ class DisneyListScreenTest {
     @Test
     fun test_disney_detail_screen() {
         testRule.setContent {
-            DisneyDetailScreen(getActor())
+            DisneyDetailScreen(ID){}
         }
         testRule.run {
             onNodeWithText(NAME).assertExists()
@@ -22,17 +22,9 @@ class DisneyListScreenTest {
         }
     }
 
-    private fun getActor() = Actor(
-        "Alladin",
-        "This character featured in films, tv shows and video games like : Aladdin(film), The Return of Jafar",
-        "World of color, Golden FairyTale Fanfare",
-        "Jafar",
-        "Princess Jasmine",
-        "https://static.wikia.nocookie.net/disney/images/b/bb/Profile_-_Aladdin.png"
-    )
-
     private companion object {
         const val NAME = "Alladin"
         const val ENEMY = "Jafar"
+        const val ID = "208"
     }
 }

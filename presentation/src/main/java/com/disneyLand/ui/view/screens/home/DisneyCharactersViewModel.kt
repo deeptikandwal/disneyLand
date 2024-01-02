@@ -31,7 +31,7 @@ class DisneyCharactersViewModel @Inject constructor(
     private var _sideEffect = MutableSharedFlow<DisneyListMviContract.DisneyListScreenSideEffect>()
 
     override fun createInitialState(): DisneyListMviContract.DisneyListScreenViewState =
-        DisneyListMviContract.DisneyListScreenViewState.LOADING
+        DisneyListMviContract.DisneyListScreenViewState.Loading
 
     override val viewState: StateFlow<DisneyListMviContract.DisneyListScreenViewState>
         get() = _viewState.asStateFlow()
@@ -43,7 +43,7 @@ class DisneyCharactersViewModel @Inject constructor(
         flow = disneyCharactersListUsecase().map { pagingData ->
             pagingData.mapToHomeScreenData()
         }.cachedIn(viewModelScope)
-        _viewState.value = DisneyListMviContract.DisneyListScreenViewState.SUCCESS(flow)
+        _viewState.value = DisneyListMviContract.DisneyListScreenViewState.Success(flow)
     }
 
     fun handleLoadState(loadStates: LoadStates) {
@@ -55,7 +55,7 @@ class DisneyCharactersViewModel @Inject constructor(
         val throwable = errorLoadState?.error
         if (throwable?.localizedMessage?.isNotEmpty() == true) {
             _viewState.value =
-                DisneyListMviContract.DisneyListScreenViewState.ERROR(throwable.localizedMessage!!)
+                DisneyListMviContract.DisneyListScreenViewState.Error(throwable.localizedMessage!!)
         }
     }
 
@@ -65,22 +65,18 @@ class DisneyCharactersViewModel @Inject constructor(
         }
     }
 
-    override fun sendIntent(vi: DisneyListMviContract.DisneyListScreenIntent) {
-        when (vi) {
+    override fun sendIntent(intent: DisneyListMviContract.DisneyListScreenIntent) {
+        when (intent) {
             is DisneyListMviContract.DisneyListScreenIntent.FetchCharactersList -> {
                 fetchDisneyCharacters()
             }
 
             is DisneyListMviContract.DisneyListScreenIntent.NavigateToDetails -> {
-                navigate(DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen(vi.id))
+                navigate(DisneyListMviContract.DisneyListScreenSideEffect.NavigateToDetailsScreen(intent.id))
             }
 
             is DisneyListMviContract.DisneyListScreenIntent.NavigateUp -> {
                 navigate(DisneyListMviContract.DisneyListScreenSideEffect.NavigateUp)
-            }
-
-            else -> {
-                // no implentation
             }
         }
     }

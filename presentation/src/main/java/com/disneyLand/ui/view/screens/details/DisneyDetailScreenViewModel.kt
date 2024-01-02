@@ -27,7 +27,7 @@ class DisneyDetailScreenViewModel @Inject constructor(
         MutableSharedFlow<DisneyDetailMviContract.DisneyDetailScreenSideEffect>()
 
     override fun createInitialState(): DisneyDetailMviContract.DisneyDetailScreenViewState =
-        DisneyDetailMviContract.DisneyDetailScreenViewState.LOADING
+        DisneyDetailMviContract.DisneyDetailScreenViewState.Loading
 
     override val viewState: StateFlow<DisneyDetailMviContract.DisneyDetailScreenViewState>
         get() = _viewState.asStateFlow()
@@ -53,28 +53,45 @@ class DisneyDetailScreenViewModel @Inject constructor(
     }
 
     private fun fetchDisneyCharactersById(id: String) {
-        _viewState.value = DisneyDetailMviContract.DisneyDetailScreenViewState.LOADING
+        _viewState.value = DisneyDetailMviContract.DisneyDetailScreenViewState.Loading
 
         viewModelScope.launch {
             disneyActorUsecase(id)
                 .catch {
                     _viewState.value =
-                        DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(it.message.toString())
+                        DisneyDetailMviContract.DisneyDetailScreenViewState.Error(it.message.toString())
                 }
                 .collectLatest { outcome ->
                     when (outcome) {
                         is Outcome.Success -> {
-                            val actor = (outcome.value).mapToDetailScreenData()
                             _viewState.value =
-                                DisneyDetailMviContract.DisneyDetailScreenViewState.SUCCESS(actor)
+                                DisneyDetailMviContract.DisneyDetailScreenViewState.Success((outcome.value).mapToDetailScreenData())
                         }
 
                         is Outcome.Failure -> {
                             _viewState.value =
-                                DisneyDetailMviContract.DisneyDetailScreenViewState.ERROR(outcome.error.message.toString())
+                                DisneyDetailMviContract.DisneyDetailScreenViewState.Error(outcome.error.message.toString())
                         }
                     }
                 }
         }
+    }
+
+    fun getActorCharacteristicsList(str: String): ArrayList<String> {
+        val list = arrayListOf<String>()
+        if (str.isNotEmpty()) {
+            val items = str.split(":")
+            items.forEach {
+                list.add(it)
+            }
+        }
+        return list
+    }
+
+    fun setVisibility(str: String): Boolean {
+        if (str.isNotBlank()) {
+            return true
+        }
+        return false
     }
 }

@@ -9,13 +9,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.disneyLand.ui.theme.Dimen.UI_SIZE_100_DP
+import com.disneyLand.ui.theme.Dimen.UI_SIZE_64_DP
 
 @Composable
+fun loadProgressBar(isLoading: Boolean) {
+    if (isLoading) {
+        ProgressBar()
+    }
+}
+@Composable
 fun ProgressBar() {
-    Box(Modifier.fillMaxSize().size(100.dp), contentAlignment = Alignment.Center) {
+    Box(Modifier.fillMaxSize().size(UI_SIZE_100_DP), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
+            modifier = Modifier.width(UI_SIZE_64_DP),
             color = MaterialTheme.colorScheme.primary
         )
     }

@@ -104,4 +104,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra.get("hilt")}")
     implementation("androidx.hilt:hilt-navigation-fragment:${rootProject.extra.get("hiltNavigation")}")
     kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:${rootProject.extra.get("kotlinMetaData")}")
+    implementation ("androidx.hilt:hilt-navigation-compose:${rootProject.extra.get("hiltCompose")}")
+
+
 }

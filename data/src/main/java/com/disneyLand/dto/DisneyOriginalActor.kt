@@ -2,7 +2,7 @@ package com.disneyLand.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class DisneyActorDto(
+data class DisneyOriginalActor(
     @SerializedName("info") var info: Info? = Info(),
     @SerializedName("data") var data: Actor? = Actor()
 )

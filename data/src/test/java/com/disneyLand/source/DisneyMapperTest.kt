@@ -2,23 +2,32 @@ package com.disneyLand.source
 
 import com.disneyLand.dto.Characters
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 
 class DisneyMapperTest {
+    private lateinit var disneyMapper: DisneyMapper
+
+    @Before
+    fun setUp() {
+        disneyMapper = DisneyMapper()
+    }
+
     @Test
     fun `map to disney character list successfully Given Characters list When mapToDisneyCharacter method is called Then verify size`() {
-        val disneyListCharacters = getCharactersList().mapToDisneyCharacter()
+        val disneyListCharacters = disneyMapper.mapToDisneyCharacter(charactersList)
         Assert.assertEquals(3, disneyListCharacters.size)
     }
 
     @Test
     fun `map to disney character list successfully Given Characters list has null items`() {
-        val disneyListCharacters = arrayListOf<Characters>(Characters(null)).mapToDisneyCharacter()
-        Assert.assertEquals(0,disneyListCharacters.size)
+        val disneyListCharacters =
+            disneyMapper.mapToDisneyCharacter(arrayListOf<Characters>(Characters(null)))
+        Assert.assertEquals(0, disneyListCharacters.size)
     }
 
-    private fun getCharactersList(): ArrayList<Characters> {
-        return arrayListOf(
+    private companion object {
+       val charactersList = arrayListOf(
             Characters(
                 id = 247,
                 name = "Angela",
@@ -38,5 +47,6 @@ class DisneyMapperTest {
                 imageUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
             )
         )
+
     }
 }

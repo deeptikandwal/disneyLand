@@ -6,13 +6,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.disneyLand.ui.theme.Dimen.UI_SIZE_10_DP
 
 @Composable
 fun CustomCard(content: @Composable () -> Unit, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.padding(10.dp).clickable { onClick() },
-        elevation = CardDefaults.cardElevation(10.dp)
+        modifier = Modifier.padding(UI_SIZE_10_DP).clickable { onClick() },
+        elevation = CardDefaults.cardElevation(UI_SIZE_10_DP)
     ) {
         content()
     }

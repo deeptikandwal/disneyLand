@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.Flow
 interface DisneyListMviContract :
     BaseMviContract<DisneyListMviContract.DisneyListScreenViewState, DisneyListMviContract.DisneyListScreenIntent, DisneyListMviContract.DisneyListScreenSideEffect> {
     sealed class DisneyListScreenViewState : ViewState {
-        object LOADING : DisneyListScreenViewState()
-        data class SUCCESS(val data: Flow<PagingData<Character>>) : DisneyListScreenViewState()
-        data class ERROR(val error: String) : DisneyListScreenViewState()
+        object Loading : DisneyListScreenViewState()
+        data class Success(val data: Flow<PagingData<Character>>) : DisneyListScreenViewState()
+        data class Error(val error: String) : DisneyListScreenViewState()
     }
 
     sealed class DisneyListScreenIntent : ViewIntent {

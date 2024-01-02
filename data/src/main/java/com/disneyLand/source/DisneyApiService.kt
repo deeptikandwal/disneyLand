@@ -1,6 +1,6 @@
 package com.disneyLand.source
 
-import com.disneyLand.dto.DisneyActorDto
+import com.disneyLand.dto.DisneyOriginalActor
 import com.disneyLand.dto.DisneyCharactersListDto
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,5 +14,5 @@ interface DisneyApiService {
     ): DisneyCharactersListDto
 
     @GET("/character/{id}")
-    suspend fun fetchDisneyCharacterById(@Path("id") id: String): DisneyActorDto
+    suspend fun fetchDisneyCharacterById(@Path("id") id: String): DisneyOriginalActor
 }

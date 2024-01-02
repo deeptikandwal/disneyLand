@@ -9,9 +9,9 @@ import com.disneyLand.model.Actor
 interface DisneyDetailMviContract :
     BaseMviContract<DisneyDetailMviContract.DisneyDetailScreenViewState, DisneyDetailMviContract.DisneyDetailScreenIntent, DisneyDetailMviContract.DisneyDetailScreenSideEffect> {
     sealed class DisneyDetailScreenViewState : ViewState {
-        object LOADING : DisneyDetailScreenViewState()
-        data class SUCCESS(val data: Actor) : DisneyDetailScreenViewState()
-        data class ERROR(val error: String) : DisneyDetailScreenViewState()
+        object Loading : DisneyDetailScreenViewState()
+        data class Success(val data: Actor) : DisneyDetailScreenViewState()
+        data class Error(val error: String) : DisneyDetailScreenViewState()
     }
 
     sealed class DisneyDetailScreenIntent : ViewIntent {

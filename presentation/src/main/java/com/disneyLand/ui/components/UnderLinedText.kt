@@ -6,16 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.disneyLand.ui.theme.Dimen.UI_SIZE_12_DP
+import com.disneyLand.ui.theme.Dimen.UI_SIZE_18_SP
 
 @Composable
 fun UnderLinedText(text: String) {
     Text(
         text = text,
-        fontSize = 18.sp,
+        fontSize = UI_SIZE_18_SP,
         textDecoration = TextDecoration.Underline,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(12.dp)
+        modifier = Modifier.padding(UI_SIZE_12_DP)
     )
 }

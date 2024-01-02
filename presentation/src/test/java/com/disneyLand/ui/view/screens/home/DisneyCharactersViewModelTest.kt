@@ -94,7 +94,7 @@ class DisneyCharactersViewModelTest {
         )
         disneyCharactersViewModel.handleLoadState(loadState)
         disneyCharactersViewModel.viewState.test {
-            Assert.assertEquals(DisneyListScreenViewState.ERROR("Not found"), awaitItem())
+            Assert.assertEquals(DisneyListScreenViewState.Error("Not found"), awaitItem())
         }
     }
 

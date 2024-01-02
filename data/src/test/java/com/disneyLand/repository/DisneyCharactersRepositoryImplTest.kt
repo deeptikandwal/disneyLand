@@ -1,12 +1,12 @@
 package com.disneyLand.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.paging.PagingData
-import androidx.paging.map
 import app.cash.turbine.test
 import com.disneyLand.Outcome
 import com.disneyLand.model.DisneyActor
+import com.disneyLand.source.ActorMapper
 import com.disneyLand.source.DisneyApiService
+import com.disneyLand.source.DisneyMapper
 import com.disneyLand.source.FakeDisneyActor
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -29,6 +29,10 @@ import retrofit2.Response
 class DisneyCharactersRepositoryImplTest {
     private lateinit var disneyCharactersRepositoryImpl: DisneyCharactersRepositoryImpl
 
+    @MockK
+    private lateinit var actorMapper: ActorMapper
+    @MockK
+    private lateinit var disneyMapper: DisneyMapper
     @get:Rule
     private val instantTaskExecutorRule = InstantTaskExecutorRule()
     private val testDispatcher = StandardTestDispatcher()
@@ -43,6 +47,8 @@ class DisneyCharactersRepositoryImplTest {
         Dispatchers.setMain(testDispatcher)
         disneyCharactersRepositoryImpl = DisneyCharactersRepositoryImpl(
             disneyApiService,
+            disneyMapper,
+            actorMapper,
             testDispatcher
         )
     }
@@ -87,7 +93,5 @@ class DisneyCharactersRepositoryImplTest {
 
     companion object {
         private const val ID = "268"
-        private const val PAGE_SIZE = 20
-
     }
 }
