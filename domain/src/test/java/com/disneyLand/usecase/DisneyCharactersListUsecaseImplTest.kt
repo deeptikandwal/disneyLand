@@ -1,7 +1,7 @@
 package com.disneyLand.usecase
 
-import androidx.paging.PagingData
 import com.disneyLand.BaseTest
+import com.disneyLand.Outcome
 import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.repository.DisneyCharactersRepository
 import io.mockk.coEvery
@@ -14,9 +14,6 @@ import org.junit.Test
 class DisneyCharactersListUsecaseImplTest : BaseTest() {
 
     private lateinit var disneyCharactersListUsecaseImpl: DisneyCharactersListUsecaseImpl
-
-    @MockK
-    private lateinit var pagingData: PagingData<DisneyListCharacter>
 
     @MockK
     private lateinit var disneyCharactersRepository: DisneyCharactersRepository
@@ -32,7 +29,7 @@ class DisneyCharactersListUsecaseImplTest : BaseTest() {
     fun `fetch disney characters list successfully`() {
         coEvery { disneyCharactersRepository.fetchDisneyCharacters() } answers {
             flow {
-                emit(pagingData)
+                emit(Outcome.Success(listOf(disneyListCharacter)))
             }
         }
         disneyCharactersListUsecaseImpl()
@@ -43,5 +40,6 @@ class DisneyCharactersListUsecaseImplTest : BaseTest() {
 
     companion object {
         private const val ID = "209"
+        val disneyListCharacter = DisneyListCharacter(209, "Anthony Biddle", "")
     }
 }

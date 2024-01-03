@@ -1,6 +1,5 @@
 package com.disneyLand.repository
 
-import androidx.paging.map
 import app.cash.turbine.test
 import com.disneyLand.BaseTest
 import com.disneyLand.Outcome
@@ -46,7 +45,7 @@ class DisneyCharactersRepositoryImplTest : BaseTest() {
     }
 
     @Test
-    fun `fetch disney characters list `() = runTest {
+    fun `fetch disney characters list successfully`() = runTest {
         coEvery { disneyApiService.fetchDisneyCharacters(any(), any()) } answers {
             FakeDisneyListCharacters.disneyListCharacters
         }
@@ -55,10 +54,18 @@ class DisneyCharactersRepositoryImplTest : BaseTest() {
         }
 
         disneyCharactersRepositoryImpl.fetchDisneyCharacters().test {
-            awaitItem().map {
-                Assert.assertEquals("", it.name)
-            }
+            Assert.assertTrue(awaitItem() is Outcome.Success)
+            awaitComplete()
+        }
+    }
+    @Test
+    fun `fetch disney characters list failed`() = runTest {
+        coEvery { disneyApiService.fetchDisneyCharacters(any(), any()) } answers {
+            throw Exception()
+        }
 
+        disneyCharactersRepositoryImpl.fetchDisneyCharacters().test {
+            Assert.assertTrue(awaitItem() is Outcome.Failure)
             awaitComplete()
         }
     }

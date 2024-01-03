@@ -1,20 +1,22 @@
 package com.disneyLand.ui.view.screens.home
 
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.disneyLand.BaseTest
+import com.disneyLand.Outcome
+import com.disneyLand.model.Character
 import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.source.HomeScreenMapper
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenIntent
 import com.disneyLand.ui.view.screens.home.DisneyListMviContract.DisneyListScreenViewState
 import com.disneyLand.usecase.DisneyCharactersListUsecaseImpl
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -39,14 +41,38 @@ class DisneyCharactersViewModelTest : BaseTest() {
     @Test
     fun `fetch disney characters list successfully GIVEN intent WHEN fetchDisneyCharacters called THEN verify usecase called to get success result`() =
         runTest {
-            val pagingData = PagingData.from(disneyListCharacters)
-            val flowListCharacter = flow { emit(pagingData) }
+            val flowListCharacter = flow { emit(Outcome.Success(disneyListCharacters)) }
+            val list = listOf<Character>()
             coEvery { disneyCharactersListUsecase() } answers { flowListCharacter }
+            every { homeScreenMapper.mapToHomeScreenData(any()) } returns list
+
+            disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
+            disneyCharactersViewModel.viewState.test {
+                Assert.assertEquals(DisneyListScreenViewState.Loading, awaitItem())
+                Assert.assertEquals(awaitItem(), DisneyListScreenViewState.Success(list))
+            }
+        }
+
+    @Test
+    fun `fetch disney characters list failed GIVEN intent WHEN fetchDisneyCharacters called THEN verify usecase called to get success result`() =
+        runTest {
+            val exception = retrofit2.HttpException(
+                retrofit2.Response.error<ResponseBody>(
+                    503,
+                    "Address not found".toResponseBody("plain/text".toMediaTypeOrNull())
+                )
+            )
+            coEvery { disneyCharactersListUsecase() } answers {
+                flow {
+                    emit(Outcome.Failure(exception))
+                }
+            }
 
             disneyCharactersViewModel.sendIntent(DisneyListScreenIntent.FetchCharactersList)
 
-            verify {
-                disneyCharactersListUsecase()
+            disneyCharactersViewModel.viewState.test {
+                Assert.assertEquals(DisneyListScreenViewState.Loading, awaitItem())
+                Assert.assertTrue(awaitItem() is DisneyListScreenViewState.Error)
             }
         }
 
@@ -73,21 +99,6 @@ class DisneyCharactersViewModelTest : BaseTest() {
                 }
             }
         }
-
-    @Test
-    fun `test load state is Error`() = runTest {
-        val loadState = LoadStates(
-            LoadState.Loading,
-            LoadState.Loading,
-            LoadState.Error(Throwable("Not found"))
-        )
-
-        disneyCharactersViewModel.handleLoadState(loadState)
-
-        disneyCharactersViewModel.viewState.test {
-            Assert.assertEquals(DisneyListScreenViewState.Error("Not found"), awaitItem())
-        }
-    }
 
     private companion object {
         const val ID = 209

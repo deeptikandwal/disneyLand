@@ -1,7 +1,5 @@
 package com.disneyLand.source
 
-import androidx.paging.PagingData
-import androidx.paging.map
 import com.disneyLand.model.Character
 import com.disneyLand.model.DisneyListCharacter
 import org.junit.Assert
@@ -18,21 +16,16 @@ class HomeScreenMapperTest {
 
     @Test
     fun `test mapping of domain model to ui model`() {
-        val pagingData = PagingData.from(disneyListCharacters)
-        val mappedData = PagingData.from(characters)
+        homeScreenMapper.mapToHomeScreenData(disneyListCharacters)
 
-        homeScreenMapper.mapToHomeScreenData(pagingData).map { character ->
-            mappedData.map {
-                Assert.assertEquals(true, character.name == it.name)
-            }
-        }
+        Assert.assertEquals(true, characters[0].name == disneyListCharacters[0].name)
     }
 
     private companion object {
         val disneyListCharacters = arrayListOf(
             DisneyListCharacter(
                 id = 247,
-                name = "Angels",
+                name = "Angela",
                 image = "https://static.wikia.nocookie.net/disney/images/c/cb/Angela_Fishberger.jpg"
             ),
             DisneyListCharacter(

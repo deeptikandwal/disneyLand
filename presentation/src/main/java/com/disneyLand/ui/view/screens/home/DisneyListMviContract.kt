@@ -1,18 +1,16 @@
 package com.disneyLand.ui.view.screens.home
 
-import androidx.paging.PagingData
 import com.disneyLand.base.BaseMviContract
 import com.disneyLand.base.SideEffect
 import com.disneyLand.base.ViewIntent
 import com.disneyLand.base.ViewState
 import com.disneyLand.model.Character
-import kotlinx.coroutines.flow.Flow
 
 interface DisneyListMviContract :
     BaseMviContract<DisneyListMviContract.DisneyListScreenViewState, DisneyListMviContract.DisneyListScreenIntent, DisneyListMviContract.DisneyListScreenSideEffect> {
     sealed class DisneyListScreenViewState : ViewState {
         object Loading : DisneyListScreenViewState()
-        data class Success(val data: Flow<PagingData<Character>>) : DisneyListScreenViewState()
+        data class Success(val data: List<Character>) : DisneyListScreenViewState()
         data class Error(val error: String) : DisneyListScreenViewState()
     }
 

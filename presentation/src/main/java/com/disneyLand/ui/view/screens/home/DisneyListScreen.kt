@@ -25,9 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.disneyLand.model.Character
 import com.disneyLand.ui.components.CustomCard
 import com.disneyLand.ui.components.CustomImage
@@ -92,7 +89,8 @@ private fun handleViewState(
         }
 
         is DisneyListMviContract.DisneyListScreenViewState.Success -> {
-            HandleUiOnSuccess(viewState, disneyCharactersViewModel, goToDetailsScreen)
+            loadProgressBar(false)
+            HandleUiOnSuccess(viewState, goToDetailsScreen)
         }
 
         is DisneyListMviContract.DisneyListScreenViewState.Error -> {
@@ -123,41 +121,26 @@ private fun handleSideEffect(
 @Composable
 private fun HandleUiOnSuccess(
     viewState: DisneyListMviContract.DisneyListScreenViewState,
-    disneyCharactersViewModel: DisneyCharactersViewModel,
     goToDetailsScreen: (Int) -> Unit
 ) {
     val disneyCharacters =
         (viewState as DisneyListMviContract.DisneyListScreenViewState.Success).data
 
     val listState: LazyGridState = rememberLazyGridState()
-    val characters = disneyCharacters.collectAsLazyPagingItems()
-    val pagingLoadStates = characters.loadState.mediator ?: characters.loadState.source
-    LaunchedEffect(pagingLoadStates) {
-        disneyCharactersViewModel.handleLoadState(pagingLoadStates)
-    }
-    ListScreen(listState, characters, goToDetailsScreen)
+    ListScreen(listState, disneyCharacters, goToDetailsScreen)
 }
 
 @Composable
 private fun ListScreen(
     listState: LazyGridState,
-    characters: LazyPagingItems<Character>,
+    characters: List<Character>,
     goToDetailsScreen: (Int) -> Unit
 ) {
-    var inProgress by remember { mutableStateOf(true) }
-    loadProgressBar(inProgress)
     Column {
         IntroText()
         LazyVerticalGrid(GridCells.Fixed(fixedGridCount), state = listState) {
-            items(characters.itemCount) { index ->
+            items(characters.size) { index ->
                 gridItem(characters, index, goToDetailsScreen)
-            }
-            inProgress = when (characters.loadState.append) {
-                is LoadState.NotLoading -> false
-                is LoadState.Loading -> true
-                else -> {
-                    false
-                }
             }
         }
     }
@@ -165,7 +148,7 @@ private fun ListScreen(
 
 @Composable
 private fun gridItem(
-    characters: LazyPagingItems<Character>,
+    characters: List<Character>,
     index: Int,
     goToDetailsScreen: (Int) -> Unit
 ) {
@@ -177,7 +160,7 @@ private fun gridItem(
                 contentAlignment = Alignment.BottomCenter
             ) {
                 Text(
-                    text = characters[index]?.name.toString(),
+                    text = characters[index].name,
                     fontSize = UI_SIZE_15_SP,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
@@ -186,6 +169,6 @@ private fun gridItem(
             }
         }
     }, {
-        characters[index]?.id?.let { goToDetailsScreen(it) }
+        goToDetailsScreen(characters[index].id)
     })
 }
