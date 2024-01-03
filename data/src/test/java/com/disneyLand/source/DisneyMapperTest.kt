@@ -47,6 +47,5 @@ class DisneyMapperTest {
                 imageUrl = "https://static.wikia.nocookie.net/disney/images/6/64/Images_%2812%29-0.jpg"
             )
         )
-
     }
 }

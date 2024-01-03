@@ -28,7 +28,7 @@ class DetailScreenMapperTest {
             majorAttraction = "The Happiest Millionaire",
             image = "",
             allies = "Cordelia Biddle (wife), Tonny Biddle",
-            enemies = "Tonny Biddle",
+            enemies = "Tonny Biddle"
         )
 
         val actor = Actor(

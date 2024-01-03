@@ -4,7 +4,7 @@ import com.disneyLand.model.Actor
 import com.disneyLand.model.DisneyActor
 import javax.inject.Inject
 
-class DetailScreenMapper @Inject constructor(){
+class DetailScreenMapper @Inject constructor() {
 
     fun mapToDetailScreenData(disneyActor: DisneyActor): Actor {
         return Actor(
@@ -16,9 +16,9 @@ class DetailScreenMapper @Inject constructor(){
             disneyActor.image
         )
     }
+
     private companion object {
         const val DESCRIPTION =
             "This character featured in films, tv shows and video games like :"
     }
 }
-

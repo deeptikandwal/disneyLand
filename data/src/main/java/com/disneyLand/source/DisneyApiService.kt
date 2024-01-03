@@ -1,7 +1,7 @@
 package com.disneyLand.source
 
-import com.disneyLand.dto.DisneyOriginalActor
 import com.disneyLand.dto.DisneyCharactersList
+import com.disneyLand.dto.DisneyOriginalActor
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

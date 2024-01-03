@@ -36,7 +36,7 @@ import com.disneyland.R
 @Composable
 fun DisneyDetailScreen(
     id: String,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val disneyDetailScreenViewModel = hiltViewModel<DisneyDetailScreenViewModel>()
     with(disneyDetailScreenViewModel) {
@@ -60,7 +60,7 @@ fun DisneyDetailScreen(
 @Composable
 private fun handleSideEffect(
     disneyDetailScreenViewModel: DisneyDetailScreenViewModel,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val sideEffectDetails by disneyDetailScreenViewModel.sideEffect.collectAsState(0)
     when (sideEffectDetails) {
@@ -104,7 +104,7 @@ private fun handleViewState(disneyDetailScreenViewModel: DisneyDetailScreenViewM
 @Composable
 private fun setDetailsScreen(
     actor: Actor,
-    disneyDetailScreenViewModel: DisneyDetailScreenViewModel,
+    disneyDetailScreenViewModel: DisneyDetailScreenViewModel
 ) {
     val scrollState = rememberScrollState()
     Column(Modifier.verticalScroll(scrollState)) {
@@ -117,13 +117,12 @@ private fun setDetailsScreen(
             setActorDescription(disneyDetailScreenViewModel, actor)
         }
     }
-
 }
 
 @Composable
 private fun setActorDescription(
     disneyDetailScreenViewModel: DisneyDetailScreenViewModel,
-    actor: Actor,
+    actor: Actor
 ) {
     val list = disneyDetailScreenViewModel.getActorCharacteristicsList(actor.description)
     UnderLinedText(list.first())

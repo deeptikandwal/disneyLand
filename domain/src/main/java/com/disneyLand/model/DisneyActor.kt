@@ -6,5 +6,5 @@ data class DisneyActor(
     val majorAttraction: String = "",
     val enemies: String = "",
     val allies: String = "",
-    val image: String = "",
+    val image: String = ""
 )

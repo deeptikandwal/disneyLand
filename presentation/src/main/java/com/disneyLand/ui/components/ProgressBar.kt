@@ -18,6 +18,7 @@ fun loadProgressBar(isLoading: Boolean) {
         ProgressBar()
     }
 }
+
 @Composable
 fun ProgressBar() {
     Box(Modifier.fillMaxSize().size(UI_SIZE_100_DP), contentAlignment = Alignment.Center) {

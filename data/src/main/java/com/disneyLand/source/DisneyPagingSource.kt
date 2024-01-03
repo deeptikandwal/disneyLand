@@ -9,7 +9,7 @@ import com.disneyLand.model.DisneyListCharacter
 
 class DisneyPagingSource(
     private val remoteDataSource: DisneyApiService,
-    private val disneyMapper: DisneyMapper,
+    private val disneyMapper: DisneyMapper
 ) : PagingSource<Int, DisneyListCharacter>() {
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)

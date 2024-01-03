@@ -28,7 +28,7 @@ class DisneyCharactersRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = MAX_PAGE_SIZE, prefetchDistance = 2),
             pagingSourceFactory = {
-                DisneyPagingSource(disneyApiService,disneyMapper)
+                DisneyPagingSource(disneyApiService, disneyMapper)
             }
         ).flow
             .flowOn(ioDispatcher)

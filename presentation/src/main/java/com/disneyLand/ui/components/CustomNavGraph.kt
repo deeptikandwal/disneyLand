@@ -17,7 +17,7 @@ private const val DEFAULT = ""
 fun CustomNavGraph(
     navController: NavHostController,
     setHomeScreen: @Composable () -> Unit,
-    setDetailsScreen: @Composable (NavBackStackEntry) -> Unit,
+    setDetailsScreen: @Composable (NavBackStackEntry) -> Unit
 ) {
     NavHost(navController, startDestination = ScreenDestination.Home.route) {
         composable(route = ScreenDestination.Home.route) {

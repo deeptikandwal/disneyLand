@@ -8,14 +8,17 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+
 open class BaseTest {
 
     private val testDispatcher = StandardTestDispatcher()
+
     @Before
-    open fun setUp(){
+    open fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
     }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {

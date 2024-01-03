@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import com.disneyLand.BaseTest
 import com.disneyLand.model.DisneyListCharacter
 import com.disneyLand.repository.DisneyCharactersRepository
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

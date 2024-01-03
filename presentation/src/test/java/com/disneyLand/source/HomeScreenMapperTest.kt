@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.disneyLand.model.Character
 import com.disneyLand.model.DisneyListCharacter
-import io.mockk.every
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +21,7 @@ class HomeScreenMapperTest {
         val pagingData = PagingData.from(disneyListCharacters)
         val mappedData = PagingData.from(characters)
 
-        homeScreenMapper.mapToHomeScreenData(pagingData).map { character->  
+        homeScreenMapper.mapToHomeScreenData(pagingData).map { character ->
             mappedData.map {
                 Assert.assertEquals(true, character.name == it.name)
             }
@@ -66,5 +65,4 @@ class HomeScreenMapperTest {
             )
         )
     }
-
 }

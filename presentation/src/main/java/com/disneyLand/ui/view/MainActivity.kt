@@ -43,7 +43,8 @@ class MainActivity : ComponentActivity() {
                             .padding(top = it.calculateTopPadding()),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        CustomNavGraph(navController,
+                        CustomNavGraph(
+                            navController,
                             {
                                 setHomeScreen()
                             },
@@ -79,7 +80,8 @@ class MainActivity : ComponentActivity() {
             },
             {
                 finish()
-            })
+            }
+        )
     }
 
     companion object {

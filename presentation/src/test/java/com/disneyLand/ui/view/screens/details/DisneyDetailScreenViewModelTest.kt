@@ -41,7 +41,6 @@ class DisneyDetailScreenViewModelTest : BaseTest() {
     @Test
     fun `fetch disney actor successfully GIVEN intent WHEN fetchDisneyActor by Id is called THEN verify`() =
         runTest {
-
             coEvery { disneyActorUsecase(ID) } answers {
                 flow {
                     emit(
@@ -91,7 +90,6 @@ class DisneyDetailScreenViewModelTest : BaseTest() {
     @Test
     fun `fetch actor failed GIVEN intent WHEN fetchDisneyActor by Id is called THEN verify`() =
         runTest {
-
             coEvery { disneyActorUsecase(ID) } answers {
                 flow {
                     emit(Outcome.Failure<DisneyActor>(error = Throwable()))

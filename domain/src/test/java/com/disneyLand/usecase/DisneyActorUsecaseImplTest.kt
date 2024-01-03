@@ -37,7 +37,7 @@ class DisneyActorUsecaseImplTest : BaseTest() {
         }
     }
 
-  private companion object {
+    private companion object {
         private const val ID = "209"
         val disneyActor = DisneyActor(
             "Alladin",

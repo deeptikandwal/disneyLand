@@ -39,7 +39,7 @@ class ActorMapper @Inject constructor() {
         films: ArrayList<String>?,
         shortfilms: ArrayList<String>?,
         tvShows: ArrayList<String>?,
-        videoGames: ArrayList<String>?,
+        videoGames: ArrayList<String>?
     ): String {
         val attractions = films?.joinToString(", ") { film ->
             film

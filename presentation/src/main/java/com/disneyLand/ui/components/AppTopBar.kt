@@ -27,8 +27,10 @@ private const val TEST_TAG = "ic_back"
 private const val ID_REDUX = "/{id}"
 
 @Composable
-fun createAppTopBar(navController: NavHostController,
-                    activity: ComponentActivity) {
+fun createAppTopBar(
+    navController: NavHostController,
+    activity: ComponentActivity
+) {
     AppTopBar {
         if (navController.currentDestination?.route == ScreenDestination.Home.route) {
             activity.finish()
@@ -37,6 +39,7 @@ fun createAppTopBar(navController: NavHostController,
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(navigateBack: () -> Unit) {

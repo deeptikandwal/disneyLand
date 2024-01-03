@@ -42,7 +42,7 @@ private const val fixedGridCount = 2
 @Composable
 fun DisneyListScreen(
     navigateToDetailsScreen: (DisneyListMviContract.DisneyListScreenSideEffect) -> Unit,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val disneyCharactersViewModel = hiltViewModel<DisneyCharactersViewModel>()
     with(disneyCharactersViewModel) {
@@ -54,13 +54,15 @@ fun DisneyListScreen(
                 )
             )
         }
-        handleSideEffect(this,
+        handleSideEffect(
+            this,
             {
                 navigateToDetailsScreen(it)
             },
             {
                 navigateUp()
-            })
+            }
+        )
         BackHandler {
             sendIntent(DisneyListMviContract.DisneyListScreenIntent.NavigateUp)
         }
@@ -81,7 +83,7 @@ private fun fetchList(disneyCharactersViewModel: DisneyCharactersViewModel) {
 @Composable
 private fun handleViewState(
     disneyCharactersViewModel: DisneyCharactersViewModel,
-    goToDetailsScreen: (Int) -> Unit,
+    goToDetailsScreen: (Int) -> Unit
 ) {
     val viewState by disneyCharactersViewModel.viewState.collectAsState()
     when (viewState) {
@@ -98,14 +100,13 @@ private fun handleViewState(
             PlaceHolderText()
         }
     }
-
 }
 
 @Composable
 private fun handleSideEffect(
     disneyCharactersViewModel: DisneyCharactersViewModel,
     navigateToDetailsScreen: (DisneyListMviContract.DisneyListScreenSideEffect) -> Unit,
-    navigateUp: () -> Unit,
+    navigateUp: () -> Unit
 ) {
     val sideEffect by disneyCharactersViewModel.sideEffect.collectAsState(0)
     when (sideEffect) {
@@ -117,14 +118,13 @@ private fun handleSideEffect(
             navigateUp()
         }
     }
-
 }
 
 @Composable
 private fun HandleUiOnSuccess(
     viewState: DisneyListMviContract.DisneyListScreenViewState,
     disneyCharactersViewModel: DisneyCharactersViewModel,
-    goToDetailsScreen: (Int) -> Unit,
+    goToDetailsScreen: (Int) -> Unit
 ) {
     val disneyCharacters =
         (viewState as DisneyListMviContract.DisneyListScreenViewState.Success).data
@@ -142,7 +142,7 @@ private fun HandleUiOnSuccess(
 private fun ListScreen(
     listState: LazyGridState,
     characters: LazyPagingItems<Character>,
-    goToDetailsScreen: (Int) -> Unit,
+    goToDetailsScreen: (Int) -> Unit
 ) {
     var inProgress by remember { mutableStateOf(true) }
     loadProgressBar(inProgress)
@@ -167,7 +167,7 @@ private fun ListScreen(
 private fun gridItem(
     characters: LazyPagingItems<Character>,
     index: Int,
-    goToDetailsScreen: (Int) -> Unit,
+    goToDetailsScreen: (Int) -> Unit
 ) {
     CustomCard({
         Box(Modifier.height(UI_SIZE_200_DP).fillMaxWidth()) {
@@ -189,4 +189,3 @@ private fun gridItem(
         characters[index]?.id?.let { goToDetailsScreen(it) }
     })
 }
-

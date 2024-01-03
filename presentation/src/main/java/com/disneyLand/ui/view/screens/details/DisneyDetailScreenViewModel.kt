@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DisneyDetailScreenViewModel @Inject constructor(
     private val disneyActorUsecase: DisneyActorUsecaseImpl,
-    private val detailScreenMapper: DetailScreenMapper,
+    private val detailScreenMapper: DetailScreenMapper
 ) : DisneyDetailMviContract, ViewModel() {
     private var _viewState = MutableStateFlow(createInitialState())
     private var _sideEffect =

@@ -2,7 +2,6 @@ package com.disneyLand.source
 
 import android.net.Uri
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.disneyLand.BaseTest
@@ -15,7 +14,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import kotlinx.coroutines.test.runTest
-import net.bytebuddy.matcher.ElementMatchers.any
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -96,6 +94,6 @@ class DisneyPagingSourceTest : BaseTest() {
 
         val refreshKey = disneyPagingSource.getRefreshKey(state)
 
-        Assert.assertEquals(0,refreshKey)
+        Assert.assertEquals(0, refreshKey)
     }
 }

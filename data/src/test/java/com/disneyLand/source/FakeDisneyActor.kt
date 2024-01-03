@@ -6,8 +6,7 @@ import com.disneyLand.dto.Info
 import com.disneyLand.model.DisneyActor
 
 class FakeDisneyActor {
-
-   companion object {
+    companion object {
         val successfulDisneyActor = DisneyOriginalActor(
             info = Info(count = 1, totalPages = 1),
             data = Actor(
