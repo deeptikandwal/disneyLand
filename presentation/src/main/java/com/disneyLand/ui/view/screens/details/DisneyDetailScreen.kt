@@ -65,7 +65,9 @@ private fun handleSideEffect(
     val sideEffectDetails by disneyDetailScreenViewModel.sideEffect.collectAsState(0)
     when (sideEffectDetails) {
         is DisneyDetailMviContract.DisneyDetailScreenSideEffect.NavigateUp -> {
-            navigateUp()
+            LaunchedEffect(Unit){
+                navigateUp()
+            }
         }
     }
 }
