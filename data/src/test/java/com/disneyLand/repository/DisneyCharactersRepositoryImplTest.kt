@@ -58,6 +58,7 @@ class DisneyCharactersRepositoryImplTest : BaseTest() {
             awaitComplete()
         }
     }
+
     @Test
     fun `fetch disney characters list failed`() = runTest {
         coEvery { disneyApiService.fetchDisneyCharacters(any(), any()) } answers {

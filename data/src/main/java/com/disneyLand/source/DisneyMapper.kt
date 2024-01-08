@@ -6,13 +6,11 @@ import javax.inject.Inject
 
 class DisneyMapper @Inject constructor() {
     fun mapToDisneyCharacter(list: List<Characters>): List<DisneyListCharacter> {
-        return list
-            .filter { (it.id != null && it.name != null && it.imageUrl != null) }
-            .map { character ->
+        return list.map { character ->
                 DisneyListCharacter(
-                    character.id!!,
-                    character.name!!,
-                    character.imageUrl!!
+                    character.id ?: 0,
+                    character.name ?: "",
+                    character.imageUrl ?: ""
                 )
             }
     }
