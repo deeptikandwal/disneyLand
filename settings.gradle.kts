@@ -10,9 +10,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
     }
 }
 
 rootProject.name = "DisneyLand"
 include(":app")
-include(":utils")
+include(":data")
+include(":domain")
+include(":presentation")
