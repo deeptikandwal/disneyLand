@@ -44,9 +44,7 @@ class DisneyCharactersViewModel @Inject constructor(
     }
 
     private fun navigate(sideEffect: SideEffect) {
-        viewModelScope.launch {
-            emitSideEffect(sideEffect as DisneyListMviContract.DisneyListScreenSideEffect)
-        }
+        viewModelScope.emitSideEffect(sideEffect as DisneyListMviContract.DisneyListScreenSideEffect)
     }
 
     override fun sendIntent(intent: ViewIntent) {
